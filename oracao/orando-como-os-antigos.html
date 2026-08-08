@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Oração — Painel Diário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAE3D3;
+    --paper-deep:#DCD3BC;
+    --ink:#2B2620;
+    --ink-soft:#5B5346;
+    --gold:#B8873A;
+    --gold-soft:#E4CFA0;
+    --copper:#A85536;
+    --copper-soft:#E3BBA6;
+    --indigo:#2F3B57;
+    --indigo-soft:#B9C2D6;
+    --line:#C7BBA0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;font-size:112.5%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Lora', serif;
+    line-height:1.65;
+    padding-bottom:4rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 1.25rem;}
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    padding:2.6rem 1.25rem 1.2rem;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:0.6rem;
+  }
+  h1.title{
+    font-family:'Spectral',serif;
+    font-weight:700;
+    font-size:2.1rem;
+    margin:0 0 0.2rem;
+    letter-spacing:-0.01em;
+  }
+  .subtitle{
+    font-family:'Spectral',serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--ink-soft);
+    font-size:1.05rem;
+    margin:0;
+  }
+  .byline{
+    font-family:'Inter',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    margin:0.6rem 0 0;
+    opacity:0.8;
+  }
+
+  /* ---------- DIAL (signature element) ---------- */
+  .dial-section{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:1.6rem 1rem 0.4rem;
+  }
+  .dial{
+    position:relative;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:conic-gradient(from 0deg,
+      var(--indigo) 0%, var(--indigo) 25%,
+      var(--gold) 25%, var(--gold) 45.83%,
+      var(--paper-deep) 45.83%, var(--paper-deep) 62.5%,
+      var(--copper) 62.5%, var(--copper) 75%,
+      var(--indigo) 75%, var(--indigo) 100%);
+    box-shadow: inset 0 0 0 8px var(--paper), 0 2px 18px rgba(43,38,32,0.18);
+  }
+  .dial::before{
+    content:"";
+    position:absolute;
+    inset:34px;
+    border-radius:50%;
+    background:var(--paper);
+    box-shadow: inset 0 1px 6px rgba(43,38,32,0.12);
+  }
+  .dial-center{
+    position:absolute;
+    inset:34px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Inter',sans-serif;
+  }
+  .dial-now-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);}
+  .dial-office{font-family:'Spectral',serif;font-weight:600;font-size:1.15rem;margin-top:0.15rem;}
+  .dial-time{font-size:0.78rem;color:var(--ink-soft);margin-top:0.25rem;}
+  .dial-marker{
+    position:absolute;
+    top:50%;left:50%;
+    width:10px;height:10px;
+    margin:-5px;
+    border-radius:50%;
+    background:var(--ink);
+    box-shadow:0 0 0 3px var(--paper), 0 0 0 4px var(--ink);
+    transform-origin:5px 5px;
+  }
+  .dial-legend{
+    display:flex;
+    gap:0.9rem;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:1rem;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+  }
+  .dial-legend span{display:flex;align-items:center;gap:0.35rem;}
+  .swatch{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dial-note{
+    font-family:'Inter',sans-serif;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    text-align:center;
+    max-width:420px;
+    margin:0.9rem auto 0;
+    opacity:0.85;
+  }
+  .quick-nav{
+    display:flex;
+    gap:0.6rem;
+    justify-content:center;
+    margin:1.3rem auto 0;
+    max-width:520px;
+    padding:0 1rem;
+  }
+  .quick-nav-btn{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.25rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.78rem;
+    letter-spacing:0.01em;
+    color:var(--ink);
+    background:rgba(255,255,255,0.5);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:0.7rem 0.5rem;
+    cursor:pointer;
+    transition:background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+  }
+  .quick-nav-btn .qn-icon{font-size:1.25rem;}
+  .quick-nav-btn:hover{background:#fff;transform:translateY(-1px);}
+  .quick-nav-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+  .quick-nav-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---------- LEITURA DE HOJE CARD ---------- */
+  .today-card{
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.1rem 1.3rem;
+    margin:1.6rem 0;
+  }
+  .today-card h2{
+    font-family:'Spectral',serif;
+    font-size:1.05rem;
+    margin:0 0 0.7rem;
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+  }
+  .reading-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:0.8rem;
+    padding:0.5rem 0;
+    border-top:1px solid var(--line);
+    font-size:0.92rem;
+  }
+  .reading-row:first-of-type{border-top:none;}
+  .reading-label{color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;flex-shrink:0;}
+  .reading-value{text-align:right;}
+  .btn-read{
+    display:inline-block;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.03em;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:0.3rem 0.7rem;
+    white-space:nowrap;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+  .btn-read:hover{background:#fff;transform:translateY(-1px);}
+  .btn-read:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+
+  /* ---------- ACCORDION / OFFICES ---------- */
+  details.office{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:0.9rem;
+    overflow:hidden;
+    background:rgba(255,255,255,0.28);
+  }
+  details.office[open]{background:rgba(255,255,255,0.5);}
+  summary.office-head{
+    list-style:none;
+    cursor:pointer;
+    padding:1rem 1.2rem;
+    display:flex;
+    align-items:center;
+    gap:0.8rem;
+    font-family:'Spectral',serif;
+    font-weight:600;
+    font-size:1.15rem;
+  }
+  summary.office-head::-webkit-details-marker{display:none;}
+  summary.office-head::marker{content:"";}
+  .office-icon{font-size:1.3rem;line-height:1;}
+  .office-meta{
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:block;
+    margin-top:0.15rem;
+  }
+  .office-head-text{flex:1;}
+  .chev{
+    font-family:'Inter',sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    flex-shrink:0;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ink);
+    color:var(--paper);
+    transition:transform 0.2s ease, background 0.15s ease;
+  }
+  summary.office-head:hover .chev{background:var(--indigo);}
+  details[open] .chev{transform:rotate(180deg);}
+  .office.now summary.office-head{
+    background:linear-gradient(90deg, rgba(184,135,58,0.16), transparent 70%);
+  }
+  .office.now .office-badge{
+    font-family:'Inter',sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    background:var(--ink);
+    color:var(--paper);
+    padding:0.15rem 0.5rem;
+    border-radius:10px;
+  }
+  .office-body{padding:0 1.3rem 1.4rem;}
+  .office-body p.postura{
+    font-family:'Inter',sans-serif;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:-0.4rem;
+    margin-bottom:1.1rem;
+  }
+
+  .step{margin-bottom:1.1rem;}
+  .step-title{
+    font-family:'Spectral',serif;
+    font-weight:600;
+    font-size:0.98rem;
+    margin:0 0 0.3rem;
+  }
+  .step blockquote{
+    margin:0.3rem 0 0;
+    padding:0.6rem 0 0.6rem 0.9rem;
+    border-left:2px solid var(--line);
+    font-style:italic;
+    color:var(--ink);
+    font-size:0.94rem;
+  }
+  .step p{margin:0.3rem 0;font-size:0.94rem;}
+  hr.rule{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:1.3rem 0;
+  }
+  .seal{
+    text-align:center;
+    font-family:'Spectral',serif;
+    font-weight:600;
+    font-size:0.95rem;
+    color:var(--indigo);
+    margin:1.3rem 0;
+    padding:0.9rem;
+    background:rgba(47,59,87,0.06);
+    border-radius:10px;
+  }
+  .seal blockquote{border:none;padding:0.4rem 0 0;text-align:center;}
+  .jump-link{
+    display:inline-block;
+    font-family:'Inter',sans-serif;
+    font-size:0.75rem;
+    color:var(--indigo);
+    text-decoration:none;
+    border-bottom:1px dotted var(--indigo);
+    margin:0.3rem 0 1rem;
+  }
+  .blessing-number{color:var(--ink-soft);font-weight:500;margin-right:0.2rem;}
+  details.blessing{
+    margin:0.9rem 0;
+    border:none;
+  }
+  details.blessing summary{
+    cursor:pointer;
+    font-family:'Spectral',serif;
+    font-weight:600;
+    font-size:0.98rem;
+    list-style:none;
+  }
+  details.blessing summary::-webkit-details-marker{display:none;}
+  details.blessing summary{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  details.blessing summary::before{
+    content:"▸";
+    color:var(--paper);
+    background:var(--ink-soft);
+    font-size:0.7rem;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  details.blessing[open] summary::before{content:"▾";background:var(--indigo);}
+  details.blessing .step{margin-top:0.6rem;}
+
+  .weekday-psalms{list-style:none;padding:0;margin:0.6rem 0;}
+  .weekday-psalms li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0.45rem 0;
+    border-top:1px solid var(--line);
+    font-size:0.9rem;
+  }
+  .weekday-psalms li:first-child{border-top:none;}
+  .weekday-psalms li.today{
+    background:rgba(184,135,58,0.14);
+    border-radius:8px;
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+    margin:0 -0.5rem;
+    font-weight:600;
+  }
+
+  .reading-block{
+    background:rgba(199,187,160,0.18);
+    border-radius:10px;
+    padding:0.9rem 1rem;
+    margin:0.9rem 0;
+    font-size:0.9rem;
+  }
+  .reading-block.active{
+    background:rgba(184,135,58,0.16);
+    border:1px solid var(--gold-soft);
+  }
+  .reading-block h4{
+    margin:0 0 0.4rem;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .reading-block .btn-read{margin-top:0.5rem;}
+  .sync-tag{
+    font-family:'Inter',sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.03em;
+    padding:0.1rem 0.4rem;
+    border-radius:8px;
+    white-space:nowrap;
+  }
+  .sync-tag.sync-ok{background:rgba(47,59,87,0.14);color:var(--indigo);}
+  .sync-tag.sync-warn{background:rgba(168,85,54,0.14);color:var(--copper);}
+  .track-status{
+    font-family:'Inter',sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--ink);
+    margin:0.3rem 0 0.5rem;
+  }
+  .btn-advance{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-advance:hover{background:var(--indigo);border-color:var(--indigo);}
+  .draft-note{
+    font-family:'Inter',sans-serif;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    background:rgba(184,135,58,0.12);
+    border-radius:8px;
+    padding:0.6rem 0.8rem;
+    margin-top:0.6rem;
+  }
+  .timer-box{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    margin-top:0.8rem;
+    background:rgba(47,59,87,0.08);
+    border-radius:12px;
+    padding:0.8rem 1rem;
+  }
+  .timer-display{
+    font-family:'Spectral',serif;
+    font-weight:600;
+    font-size:1.6rem;
+    color:var(--indigo);
+    min-width:80px;
+  }
+  .btn-timer{
+    background:var(--indigo);
+    color:var(--paper);
+    border-color:var(--indigo);
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    padding:0.5rem 1.1rem;
+  }
+  .btn-timer:hover{background:var(--ink);border-color:var(--ink);}
+  .version-ctrl{
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:1rem auto 0;
+    max-width:520px;
+    padding:0 1rem;
+  }
+  .version-label{
+    font-family:'Inter',sans-serif;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .version-btn{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.7rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    background:rgba(255,255,255,0.5);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:0.3rem 0.65rem;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .version-btn:hover{background:#fff;}
+  .version-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .version-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+  .track-reset{
+    display:inline-block;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border-bottom:1px dotted var(--ink-soft);
+    margin-left:0.6rem;
+    cursor:pointer;
+  }
+
+  /* método final chapter */
+  .method-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.85rem;
+    margin:0.8rem 0;
+  }
+  .method-table td{padding:0.35rem 0.2rem;border-top:1px solid var(--line);}
+  .method-table tr:first-child td{border-top:none;}
+  .method-table tr.today td{background:rgba(184,135,58,0.14);font-weight:600;}
+
+  footer.foot{
+    text-align:center;
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    margin-top:2.5rem;
+    padding:0 1.5rem;
+    opacity:0.85;
+  }
+  footer.foot a{color:var(--ink-soft);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .btn-read, .chev{transition:none;}
+  }
+
+  .font-ctrl{
+    position:fixed;
+    top:10px;
+    right:10px;
+    z-index:50;
+    display:flex;
+    gap:4px;
+    align-items:center;
+    background:rgba(234,227,211,0.96);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:4px;
+    box-shadow:0 2px 10px rgba(43,38,32,0.18);
+  }
+  .font-ctrl button{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    border:none;
+    background:var(--paper-deep);
+    color:var(--ink);
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .font-ctrl button:first-child{font-size:0.75rem;}
+  .font-ctrl button:nth-child(2){font-size:0.95rem;}
+  .font-ctrl button:last-child{font-size:1.15rem;}
+  .font-ctrl button:hover:not(:disabled){background:#fff;}
+  .font-ctrl button:disabled{opacity:0.35;cursor:default;}
+  .font-ctrl button:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="font-ctrl" role="group" aria-label="Ajustar tamanho da fonte">
+  <button id="fontMinus" onclick="changeFontStep(-1)" aria-label="Diminuir tamanho da fonte">A−</button>
+  <button id="fontReset" onclick="applyFontStep(1)" aria-label="Tamanho de fonte padrão">A</button>
+  <button id="fontPlus" onclick="changeFontStep(1)" aria-label="Aumentar tamanho da fonte">A+</button>
+</div>
+
+<header class="top">
+  <div class="eyebrow">Orando como os Antigos</div>
+  <h1 class="title">Manual de Oração</h1>
+  <p class="subtitle">Painel diário — o eixo do dia diante de Deus</p>
+  <p class="byline">Idealização e organização: Plautus Pinheiro</p>
+</header>
+
+<div class="dial-section">
+  <div class="dial">
+    <div class="dial-marker" id="dialMarker"></div>
+    <div class="dial-center">
+      <div class="dial-now-label">Agora</div>
+      <div class="dial-office" id="nowOffice">—</div>
+      <div class="dial-time" id="nowTime">—</div>
+    </div>
+  </div>
+  <div class="dial-legend">
+    <span><i class="swatch" style="background:var(--gold)"></i>Matutino · 6h–11h</span>
+    <span><i class="swatch" style="background:var(--copper)"></i>Vespertino · 15h–18h</span>
+    <span><i class="swatch" style="background:var(--indigo)"></i>Noturno · 18h–6h</span>
+  </div>
+  <p class="dial-note">O dial usa nascer/pôr do sol fixos (6h/18h) para simplificar.</p>
+
+  <div class="quick-nav">
+    <button class="quick-nav-btn" id="qnMatutino" onclick="goToOffice('office-matutino','qnMatutino')">
+      <span class="qn-icon">☀️</span><span>Matutino</span>
+    </button>
+    <button class="quick-nav-btn" id="qnVespertino" onclick="goToOffice('office-vespertino','qnVespertino')">
+      <span class="qn-icon">🌤️</span><span>Vespertino</span>
+    </button>
+    <button class="quick-nav-btn" id="qnNoturno" onclick="goToOffice('office-noturno','qnNoturno')">
+      <span class="qn-icon">🌙</span><span>Noturno</span>
+    </button>
+  </div>
+
+  <div class="version-ctrl" role="group" aria-label="Versão da Bíblia usada nos links">
+    <span class="version-label">Versão:</span>
+    <button id="ver_NAA" class="version-btn" onclick="setBibleVersion('NAA')">NAA</button>
+    <button id="ver_ARA" class="version-btn" onclick="setBibleVersion('ARA')">ARA</button>
+    <button id="ver_NVI" class="version-btn" onclick="setBibleVersion('NVI')">NVI</button>
+    <button id="ver_NTLH" class="version-btn" onclick="setBibleVersion('NTLH')">NTLH</button>
+    <button id="ver_ARC" class="version-btn" onclick="setBibleVersion('ARC')">ARC</button>
+  </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="today-card">
+    <h2>📖 Leitura sugerida de hoje</h2>
+    <div class="reading-row">
+      <span class="reading-label">Salmo do dia</span>
+      <span class="reading-value" id="todayPsalmWeekday">—</span>
+    </div>
+    <div class="reading-row">
+      <span class="reading-label">Salmos — ciclo mensal</span>
+      <span class="reading-value" id="todayPsalmMonthly">—</span>
+    </div>
+    <div class="reading-row">
+      <span class="reading-label">Provérbios do dia</span>
+      <span class="reading-value" id="todayProverbs">—</span>
+    </div>
+    <div class="reading-row" id="todaySpecialRow">
+      <span class="reading-label" id="todaySpecialLabel">—</span>
+      <span class="reading-value" id="todaySpecialValue">—</span>
+    </div>
+  </div>
+
+  <!-- ===================== PARTE I ===================== -->
+  <details class="office" id="parte1">
+    <summary class="office-head">
+      <span class="office-icon">📜</span>
+      <span class="office-head-text">Fundamentos<span class="office-meta">Parte I — Introdução</span></span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+      <div class="step">
+        <p class="step-title">Prefácio</p>
+        <p>A fé precisa de palavras bem alinhadas para permanecer viva. Este livreto nasce da convicção de que a vida espiritual não se sustenta apenas pelo ímpeto do momento, mas pela constância do ritmo e pela fidelidade à Verdade. Não ignoramos o valor das palavras que brotam espontaneamente do coração, pois o Espírito intercede por nós com gemidos inexprimíveis; contudo, reconhecemos que o coração humano é, por vezes, um terreno instável e nebuloso.</p>
+        <p>A proposta aqui contida é extraída dos escritos inspirados: é o oferecimento de um "sacrifício de louvor" que possui ordem e substância. A repetição não existe para convencer Deus — que conhece nossas necessidades antes mesmo de as pronunciarmos —, mas para educar o homem. Como o cinzel que molda a pedra, a oração estruturada aquieta a mente, organiza os afetos e alinha a alma à realidade do Reino.</p>
+        <p>Buscamos a mente de Cristo através das palavras de Cristo. Quando o orante se submete ao rito, ele não está silenciando sua própria voz, mas permitindo que sua voz seja afinada pela frequência das Escrituras. É o exercício de "reter a firme confissão da nossa esperança" (Hebreus 10:23), transformando a disciplina em deleite. Este não é um caminho de atalhos ou euforias rápidas; é o caminho seguro da edificação, onde a ordem externa pavimenta a estrada para a liberdade do espírito.</p>
+      </div>
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">Introdução: Orar como Ato de Governo e Contemplação</p>
+        <p>Os antigos não oravam quando sobrava tempo; eles organizavam o tempo porque oravam. Para homens como Daniel, que dobrava os joelhos três vezes ao dia voltado para Jerusalém, ou os patriarcas que erguiam altares antes de fincar estacas, a oração não era um recurso emocional, nem um refúgio para dias difíceis. Era um ato de governo. Governava o dia, o corpo, os afetos, as decisões e o modo de estar no mundo. Antes que qualquer coisa fosse feita, algo precisava ser dito diante de Deus. Orar era alinhar-se; era colocar a alma no eixo antes que o dia a puxasse para fora do centro.</p>
+        <p>O Senhor Jesus, embora sendo a própria Palavra Viva, não abriu mão da disciplina das palavras ordenadas e da perseverança do tempo. Ele habitou o rito: frequentava as sinagogas "segundo o seu costume" (Lucas 4:16) e submetia Sua voz aos Salmos e às bênçãos de Seu povo. No entanto, Sua perseverança ia além do hábito; era uma vigília de governo. Jesus retirava-se para lugares solitários antes do alvorecer e, por vezes, atravessava noites inteiras em diálogo com o Pai. No Getsêmani, Sua perseverança atingiu o ápice: Ele não buscou novos improvisos, mas repetiu a mesma oração, submetendo Seu corpo e Seus afetos até que o eixo da Sua vontade humana estivesse plenamente fundido ao plano eterno.</p>
+        <p>Este manual nasce do resgate dessa consciência e da disciplina da contemplação. Compreendemos que o espírito não se mantém vivo apenas por lampejos de entusiasmo, mas pelo exercício rigoroso de manter a visão fixada no Eterno através de palavras ordenadas. Para os antigos, as palavras do rito eram como as pedras do altar: sólidas, imutáveis e capazes de sustentar o fogo. Eles sabiam que, quando as palavras do coração se calavam pelo cansaço, as palavras da Escritura e da Tradição continuavam a queimar, garantindo que a lamparina do espírito nunca se apagasse.</p>
+        <p>Não propomos improvisos, nem fórmulas mágicas. Propomos ordem, ritmo e continuidade. Este é o exercício da prática de homens e mulheres que compreenderam que a vida espiritual é uma construção de longo prazo.</p>
+      </div>
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">🛡️ Defesa do Método: A Estrutura e o Espírito</p>
+        <p>Muitos temem que a adoção de um rito possa apagar a vivacidade do Espírito Santo. Tal temor nasce de uma compreensão equivocada sobre a liberdade espiritual. O que testemunhamos nas últimas décadas foi um movimento pendular: da mecanicidade de rezas sem entendimento para uma espontaneidade sem prumo. Ao enfatizarmos apenas o "falar o que sentimos", distanciando-nos das palavras bíblicas que alinham o coração, criamos, sem perceber, uma atmosfera de ausência.</p>
+        <p>O Método não substitui o Espírito; ele O serve. O Espírito Santo é o Espírito da Verdade e da Ordem. Uma estrutura mental e espiritual correta não aprisiona o Consolador; pelo contrário, oferece o canal por onde a Sua voz pode ecoar com clareza. Este manual propõe um relacionamento estruturado pela Verdade, retirando o orante de si mesmo e lançando-o na realidade inabalável de Deus.</p>
+      </div>
+      <div class="step">
+        <p class="step-title">A Ciência da Ordem: A Fluidez do Rito</p>
+        <p>Para avançar no espírito, é necessário primeiro estabelecer uma base sólida na alma. O que chamamos de Rito é a estabilização do campo mental. Quando o orante segue uma ordem fixa, ele desonera a mente da necessidade de decidir o que dizer a cada instante. Essa estrutura cria um trilho espiritual. A ordem externa gera a estrutura mental necessária para que a alma avance para uma fluidez maior nas regiões do espírito.</p>
+      </div>
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">🏛️ O Alinhamento das Vozes</p>
+        <p>Este manual opera na convergência entre a Antiga Herança e a Nova Realidade. Não utilizamos os textos da Antiguidade como sombras do passado, mas como estruturas que encontram seu pleno significado em Cristo.</p>
+        <p><strong>O Salmo 141 e os Salmos Imprecatórios</strong></p>
+        <p><strong>O Rito do Incenso:</strong> Reconhecemos que a oração que sobe como incenso não brota da nossa própria virtude, mas da intercessão perfeita de Cristo, o único e verdadeiro Sacerdote.</p>
+        <p><strong>A Transmutação do Rigor:</strong> No Antigo Testamento, a Lei operava uma pedagogia de separação e juízo contra o adversário. No Evangelho, essa força é transmutada. O rigor que antes clamava pela destruição do ímpio é aqui redirecionado para a destruição das obras das trevas e do "homem velho". Não buscamos o fim do oponente, mas o estabelecimento da Justiça de Deus que retira do mal o seu poder de ação.</p>
+        <p><strong>A Oração do Filho de Ravina</strong></p>
+        <p>Embora de origem talmúdica, esta oração encontra seu ápice no ensinamento de Jesus sobre a natureza do Pai, que faz nascer o sol sobre maus e bons e vir chuvas sobre justos e injustos. Cultivamos a bondade não como um sentimento, mas como uma arma poderosa: ao permanecermos "humildes como o pó", tornamo-nos impenetráveis ao mal.</p>
+      </div>
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">🏛️ Os Porquês — A Fundamentação do Eixo Central</p>
+        <p><strong>As Bem-aventuranças (Configuração da Identidade)</strong></p>
+        <p>Proferimos as Bem-aventuranças como quem veste uma armadura de luz. Elas não são metas a serem alcançadas pelo esforço, mas a realidade de Cristo que aceitamos acatar. Quem começa o dia declarando-se manso e sedento de justiça, termina o dia operando em paz.</p>
+        <p><strong>O Pai Nosso (Configuração da Vontade)</strong></p>
+        <p>No rito das 19 Bênçãos, o Pai Nosso é o Selo de Alinhamento. Ele é inserido estrategicamente para garantir que o coração não se desvie da vontade do Pai, filtrando todas as petições humanas pela petição perfeita do Filho.</p>
+        <ul>
+          <li>Após a Bênção 3: Para selar o tributo inicial e o reconhecimento da majestade.</li>
+          <li>Após a Bênção 16: Para filtrar todas as petições humanas pela petição perfeita do Filho.</li>
+          <li>Após a Bênção 19: Para encerrar o rito sob a autoridade final do Reino.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <p class="step-title">AS BÊNÇÃOS — O Eixo das Dezenove Bênçãos</p>
+        <p>O rito das Dezenove Bênçãos (a Amidá Cristã) não é um inventário de desejos, mas uma engenharia de alinhamento. Cada bênção foi desenhada para atuar em uma jurisdição específica da vida humana, retirando o orante da sua própria subjetividade e situando-o na realidade do Reino de Deus.</p>
+        <p><strong>As três primeiras (Tributo)</strong> — Estabelecem a identidade. Antes de pedir, o homem reconhece quem Deus é (Deus dos Pais), o que Ele faz (Poder e Vida) e a Sua natureza absoluta (Santidade).</p>
+        <p><strong>As treze centrais (Petições de Governo)</strong> — Tratam da manutenção da vida. Elas cobrem o intelecto (Sabedoria), a moral (Arrependimento e Perdão), a liberdade física e espiritual (Redenção e Cura), a economia (Provisão) e a política/justiça (Unidade, Autoridades e Inimigos).</p>
+        <p><strong>As três finais (Aceitação)</strong> — Selam o rito na Gratidão, na Paz e na Verdade, garantindo que o orante saia da oração não apenas "ouvido", mas transformado.</p>
+      </div>
+      <details class="blessing">
+        <summary>O Entendimento das 19 Bênçãos (expandir)</summary>
+        <div class="step">
+          <p><strong>1. Deus dos Pais:</strong> Estabelece sua identidade como herdeiro. Você não ora sozinho, mas inserido em uma linhagem de fidelidade que atravessa gerações e se cumpre em Cristo.</p>
+          <p><strong>2. Poder e Vida:</strong> Decreta que a estagnação não tem autoridade sobre o seu dia. É o reconhecimento de que o Deus que ressuscitou Jesus é a fonte de energia que sustenta sua saúde e vigor.</p>
+          <p><strong>3. Santidade do Nome:</strong> Alinha sua voz à frequência do céu. Antes de qualquer pedido, você ordena suas prioridades, reconhecendo que a presença de Deus é o valor absoluto que santifica o tempo.</p>
+          <p><strong>4. Sabedoria:</strong> Confessamos que em Jesus — a Luz do mundo — encontramos o prumo para o intelecto. É a súplica para que a nossa mente não opere no escuro, mas sob o discernimento da Verdade.</p>
+          <p><strong>5. Arrependimento:</strong> É o ato de reorientar o coração. Não é um pedido de desculpas, mas um retorno deliberado ao abraço do Pai, corrigindo o curso da vontade.</p>
+          <p><strong>6. Perdão:</strong> Aqui, o entendimento foge do mérito. Reconhecemos que fomos inundados por uma misericórdia impagável e, dessa feita, somos constrangidos a liberar quem nos deve. O perdão é a desoneração da alma para que a oração não encontre barreiras.</p>
+          <p><strong>7. Redenção (O Resgate):</strong> O entendimento de que a liberdade é fruto da permanência. Ao permanecermos na Sua Palavra, conhecemos a Verdade que desfaz as prisões mentais e os medos invisíveis.</p>
+          <p><strong>8. Cura:</strong> Baseada na obra da Cruz, esta bênção entende que Jesus é o restaurador da integridade humana. É o governo de Deus sobre as feridas do corpo e das emoções.</p>
+          <p><strong>9. Provisão:</strong> Destrona a ansiedade financeira. O entendimento aqui é de dependência filial: o Pai sabe do que necessitamos antes mesmo de pedirmos.</p>
+          <p><strong>10. Unidade:</strong> Fortalece os laços do corpo de Cristo. Entendemos que o nosso testemunho público depende da nossa capacidade de vivermos como um único rebanho.</p>
+          <p><strong>11. Justiça e Autoridades:</strong> O entendimento do governo como serviço. Oramos para que quem exerce autoridade o faça sob o modelo de Jesus, promovendo a paz e a retidão.</p>
+          <p><strong>12. Pelos Inimigos:</strong> É o governo da bondade superior. Entendemos que, ao sermos alcançados pela bondade do Pai, respondemos à ofensa com a intercessão, buscando um coração bom que desmonte o ciclo da vingança.</p>
+          <p><strong>13. Justos:</strong> Identifica-se com os que buscam os valores do Reino. É o reconhecimento da fraternidade com aqueles que sofrem por amor à justiça.</p>
+          <p><strong>14. Paz de Jerusalém:</strong> Reconhece Jerusalém como o centro do plano de Deus para as nações. É o alinhamento com a cronologia profética das Escrituras.</p>
+          <p><strong>15. Messias:</strong> Proclama abertamente que o Reino de Deus já opera através da Pessoa de Jesus Cristo, o Rei que reina e que voltará.</p>
+          <p><strong>16. Oração:</strong> É a confirmação da eficácia do diálogo. O entendimento é de que temos acesso direto ao Pai pelo nome de Jesus e que nossas palavras são ouvidas.</p>
+          <p><strong>17. Ação de Graças:</strong> Cria uma blindagem espiritual. Entendemos que a gratidão não é uma resposta a um benefício, mas um estado contínuo de reconhecimento da mão de Deus em cada detalhe.</p>
+          <p><strong>18. Paz:</strong> Estabelece o descanso que o mundo não pode dar. É a ordem final que pacifica a casa, a mente e o espírito.</p>
+          <p><strong>19. Verdade e Fidelidade (Revelação):</strong> O fim do mérito humano. Entendemos que a Verdade se fez carne em Jesus para nos revelar o Pai, deslocando nossa confiança do "fazer" para o "conhecer" a Rocha inabalável.</p>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- ===================== PRELÚDIO ===================== -->
+  <details class="office" id="prelude">
+    <summary class="office-head">
+      <span class="office-icon">🕊️</span>
+      <span class="office-head-text">Prelúdio<span class="office-meta">Ao acordar — Praticar ainda deitado, ao abrir os olhos — antes de qualquer outra palavra</span></span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+
+      <div class="step">
+        <p class="step-title">Modeh Aní</p>
+        <blockquote>"Agradeço eu perante Ti, Rei vivo e eterno, que devolveste em mim minha alma com misericórdia; grande é a Tua fidelidade."</blockquote>
+        <p>Eu agradeço — reconheço que a vida que recebo hoje não me pertence por direito próprio. Cada manhã é um dom devolvido pela misericórdia de Deus. Eu reconheço — confesso que há um governo acima do meu próprio querer. A vida não começa comigo; ela começa diante do Rei vivo e eterno. Eu me disponho — recebo o dia como missão. A alma que me foi devolvida não é apenas para existir, mas para caminhar diante de Deus com fidelidade.</p>
+        <p class="draft-note">Este prelúdio deve ser praticado no primeiríssimo instante do dia — ainda deitado, com os olhos recém-abertos, antes de qualquer palavra, pensamento ou tarefa. É a primeira voz do dia, e por isso vem antes de tudo o mais, inclusive antes do Ofício Matutino. <em>(texto provisório — ajuste como preferir)</em></p>
+      </div>
+
+      <div class="step">
+        <p class="step-title">O Silêncio Inicial (3 minutos)</p>
+        <blockquote>"Pai, aquieta o meu coração diante de Ti. Alivia a minha mente de pensamentos e inquietações desordenadas e estranhas. Ajuda-me a me render diante do Senhor, em espírito, alma e corpo. Conduze-me ao silêncio do coração, para que eu possa ouvir a Tua voz. Em nome de Jesus, Amém."</blockquote>
+        <div class="timer-box">
+          <div class="timer-display" id="timerDisplay">03:00</div>
+          <button class="btn-read btn-timer" id="timerBtn" onclick="toggleSilenceTimer()">Iniciar</button>
+        </div>
+      </div>
+
+      <div class="step">
+        <p class="step-title">A Ordem do Lugar</p>
+        <p><em>Arrumar a cama</em> — Governo sobre a matéria. Ordeno o que me foi confiado. O cuidado com o simples disciplina o coração para o que é maior.</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- ===================== OFÍCIO MATUTINO ===================== -->
+  <details class="office" id="office-matutino">
+    <summary class="office-head">
+      <span class="office-icon">☀️</span>
+      <span class="office-head-text">Ofício Matutino<span class="office-meta">Nascer do sol – 11h · Postura: De pé</span></span>
+      <span class="office-badge" id="badgeMatutino" style="display:none;">agora</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+
+      <div class="step">
+        <p class="step-title">1. Abertura — Invocação dos Lábios</p>
+        <blockquote>"Abre os meus lábios, Senhor, e a minha boca proclamará o Teu louvor. Purifica o meu coração de todos os pensamentos vãos, desordenados e estranhos. Ilumina os olhos do meu entendimento e inflama a minha vontade, para que eu me aproxime mais de Ti, cresça na Tua graça e viva segundo a Tua vontade. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">2. Salmo do Dia da Semana</p>
+        <p>Escolha o salmo conforme o dia:</p>
+        <ul class="weekday-psalms" id="weekdayPsalmList"></ul>
+      </div>
+
+      <div class="step">
+        <p class="step-title">3. Salmo Matutino Fixo — Salmo 5 <a class="btn-read" target="_blank" rel="noopener" href="https://www.bible.com" data-b="sl" data-c="5">Ler →</a></p>
+        <blockquote>"Dá ouvidos, Senhor, às minhas palavras e acode ao meu gemido. Escuta, Rei meu e Deus meu, a minha voz que clama, pois a ti é que imploro. De manhã, Senhor, ouves a minha voz; de manhã te apresento a minha oração e fico esperando..."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">4. Configuração da Identidade — As Bem-aventuranças <a class="btn-read" target="_blank" rel="noopener" href="https://www.bible.com" data-b="mt" data-c="5">Ler →</a></p>
+        <blockquote>"Bem-aventurados os humildes de espírito, porque deles é o reino dos céus. Bem-aventurados os que choram, porque serão consolados. Bem-aventurados os mansos, porque herdarão a terra. Bem-aventurados os que têm fome e sede de justiça, porque serão fartos. Bem-aventurados os misericordiosos, porque alcançarão misericórdia. Bem-aventurados os limpos de coração, porque verão a Deus. Bem-aventurados os pacificadores, porque serão chamados filhos de Deus. Bem-aventurados os perseguidos por causa da justiça, porque deles é o reino dos céus." (Mateus 5:1-12)</blockquote>
+      </div>
+
+      <div class="step" id="paiNosso1">
+        <p class="step-title">5. Configuração da Vontade — Oração do Senhor</p>
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém." (Mateus 6:9-15)</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">6. Operação de Governo — O Rito das 19 Bênçãos (Amidá Cristã)</p>
+      </div>
+
+      <details class="blessing" id="b1"><summary><span class="blessing-number">1.</span>Bênção do Deus dos Pais</summary>
+        <div class="step"><blockquote>"O Deus de Abraão, de Isaque e de Jacó, o Deus de nossos pais, glorificou a seu Servo Jesus." (Atos 3:13)</blockquote>
+        <p><strong>Declaração:</strong> Reconhecemos que o Deus que guiou os patriarcas é o mesmo Pai que se revelou plenamente em Jesus Cristo.</p>
+        <p><strong>Súplica:</strong> Que a fidelidade que sustentou as gerações passadas firme os nossos passos e os de nossa descendência hoje.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, o Deus dos nossos pais em Cristo Jesus.</p></div>
+      </details>
+
+      <details class="blessing" id="b2"><summary><span class="blessing-number">2.</span>Bênção do Poder e Vida</summary>
+        <div class="step"><blockquote>"Eu sou a ressurreição e a vida. Quem crê em mim, ainda que morra, viverá." (João 11:25)</blockquote>
+        <p><strong>Declaração:</strong> Proclamamos que em Jesus a vida venceu a morte e n'Ele recebemos a promessa da eternidade.</p>
+        <p><strong>Súplica:</strong> Que o Teu poder renove nossas forças e traga vida nova a tudo o que em nós parece ter perdido a esperança.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que fazes a vida florescer onde havia morte.</p></div>
+      </details>
+
+      <details class="blessing" id="b3"><summary><span class="blessing-number">3.</span>Bênção da Santidade do Nome</summary>
+        <div class="step"><blockquote>"Santo, Santo, Santo é o Senhor Deus, o Todo-Poderoso, aquele que era, que é e que há de vir." (Apocalipse 4:8)</blockquote>
+        <p><strong>Declaração:</strong> Santificamos o Teu Nome acima de tudo e reconhecemos que a Tua presença é a nossa maior herança.</p>
+        <p><strong>Súplica:</strong> Que a Tua santidade ilumine nossos pensamentos e ordene o nosso modo de viver neste dia.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, o Deus Santo.</p></div>
+      </details>
+
+      <div class="seal">✦ PAI NOSSO — SELO DE ALINHAMENTO I ✦
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <details class="blessing" id="b4"><summary><span class="blessing-number">4.</span>Bênção da Sabedoria</summary>
+        <div class="step"><blockquote>"Eu sou a luz do mundo; quem me segue não andará nas trevas." (João 8:12)</blockquote>
+        <p><strong>Declaração:</strong> Confessamos que em Jesus encontramos a luz verdadeira que ilumina o nosso entendimento.</p>
+        <p><strong>Súplica:</strong> Concede-nos a clareza para discernir o Teu caminho e a sabedoria para agir com amor e verdade.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que dás luz e entendimento aos Teus filhos.</p></div>
+      </details>
+
+      <details class="blessing" id="b5"><summary><span class="blessing-number">5.</span>Bênção do Arrependimento</summary>
+        <div class="step"><blockquote>"Arrependei-vos, porque é chegado o reino dos céus." (Mateus 3:2)</blockquote>
+        <p><strong>Declaração:</strong> Reconhecemos que precisamos reorientar o nosso coração e retornar diariamente ao Teu abraço.</p>
+        <p><strong>Súplica:</strong> Atrai o nosso coração para Ti e dá-nos um espírito humilde que busca sempre a retidão e o Teu caminho.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que Te alegras com a nossa volta para casa.</p></div>
+      </details>
+
+      <details class="blessing" id="b6"><summary><span class="blessing-number">6.</span>Bênção do Perdão</summary>
+        <div class="step"><blockquote>"Pai, perdoa-lhes, porque não sabem o que fazem." (Lucas 23:34)</blockquote>
+        <p><strong>Declaração:</strong> Recebemos o perdão que Jesus nos ofereceu e, dessa feita, concedemos também perdão a todos os que nos feriram.</p>
+        <p><strong>Súplica:</strong> Perdoa-nos, ó Pai, limpa a nossa alma de todo peso e não permitas que nenhuma amargura impeça a nossa comunhão Contigo.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que perdoas por amor de Cristo.</p></div>
+      </details>
+
+      <details class="blessing" id="b7"><summary><span class="blessing-number">7.</span>Bênção da Redenção — O Resgate</summary>
+        <div class="step"><blockquote>"Se vós permanecerdes na minha palavra, conhecereis a verdade, e a verdade vos libertará." (João 8:31-32)</blockquote>
+        <p><strong>Declaração:</strong> Proclamamos que Jesus nos resgatou com amor e nos trouxe para a Sua maravilhosa luz.</p>
+        <p><strong>Súplica:</strong> Que esse resgate se manifeste hoje como liberdade real de nossas prisões internas e de todo medo.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, o Redentor do mundo.</p></div>
+      </details>
+
+      <details class="blessing" id="b8"><summary><span class="blessing-number">8.</span>Bênção da Cura</summary>
+        <div class="step"><blockquote>"Pelas suas chagas fostes sarados." (1 Pedro 2:24)</blockquote>
+        <p><strong>Declaração:</strong> Cremos que a obra da Cruz restaura a nossa integridade e que Jesus continua operando cura em nosso meio.</p>
+        <p><strong>Súplica:</strong> Toca nossas dores, restaura nosso vigor e traz saúde ao nosso corpo, aos nossos ossos, ao nosso sangue e às nossas emoções.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que curas e restauras o Teu povo.</p></div>
+      </details>
+
+      <details class="blessing" id="b9"><summary><span class="blessing-number">9.</span>Bênção da Provisão</summary>
+        <div class="step"><blockquote>"Vosso Pai celeste sabe que necessitais de todas estas coisas." (Mateus 6:32)</blockquote>
+        <p><strong>Declaração:</strong> Declaramos que o nosso sustento vem das Tuas mãos e confiamos no Teu cuidado diário.</p>
+        <p><strong>Súplica:</strong> Abençoa o nosso trabalho e concede-nos o pão necessário para nós e para partilhar com quem precisa.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que sustentas a nossa vida.</p></div>
+      </details>
+
+      <details class="blessing" id="b10"><summary><span class="blessing-number">10.</span>Bênção da Unidade</summary>
+        <div class="step"><blockquote>"A fim de que todos sejam um." (João 17:21)</blockquote>
+        <p><strong>Declaração:</strong> Reconhecemos que em Jesus somos todos irmãos, chamados a viver em unidade e amor.</p>
+        <p><strong>Súplica:</strong> Fortalece os laços que nos unem e cure as divisões, para que o mundo creia que enviaste Jesus.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que nos unes em um só coração.</p></div>
+      </details>
+
+      <details class="blessing" id="b11"><summary><span class="blessing-number">11.</span>Bênção da Justiça e Autoridades</summary>
+        <div class="step"><blockquote>"Quem quiser tornar-se grande entre vós, será esse o que vos sirva." (Mateus 20:26)</blockquote>
+        <p><strong>Declaração:</strong> Reconhecemos que todo governo justo deve refletir a Tua vontade e o cuidado com os pequenos.</p>
+        <p><strong>Súplica:</strong> Concede sabedoria aos nossos governantes para que promovam o bem e a paz na terra.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, Rei justo que ama a verdade.</p></div>
+      </details>
+
+      <details class="blessing" id="b12"><summary><span class="blessing-number">12.</span>Bênção Pelos Inimigos — O Governo da Bondade</summary>
+        <div class="step"><blockquote>"Amai os vossos inimigos e orai pelos que vos perseguem." (Mateus 5:44)</blockquote>
+        <p><strong>Declaração:</strong> Seguimos o ensinamento de Jesus e respondemos ao mal com o bem e à ofensa com a intercessão.</p>
+        <p><strong>Súplica:</strong> Livra-nos do desejo de vingança e transforma os nossos corações num coração bom, assim como o Teu.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, nosso refúgio e nossa paz.</p></div>
+      </details>
+
+      <details class="blessing" id="b13"><summary><span class="blessing-number">13.</span>Bênção dos Justos</summary>
+        <div class="step"><blockquote>"Bem-aventurados os que têm fome e sede de justiça, porque eles serão fartos." (Mateus 5:6)</blockquote>
+        <p><strong>Declaração:</strong> Nos identificamos com todos os que buscam viver conforme os valores do Teu Reino.</p>
+        <p><strong>Súplica:</strong> Sustenta os que de coração limpo buscam a verdade e protege os que sofrem por praticarem a justiça.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, amparo dos que confiam em Ti.</p></div>
+      </details>
+
+      <details class="blessing" id="b14"><summary><span class="blessing-number">14.</span>Bênção da Paz de Jerusalém</summary>
+        <div class="step"><blockquote>"Ah! se tu conhecesses o que à tua paz pertence!" (Lucas 19:42)</blockquote>
+        <p><strong>Declaração:</strong> Reconhecemos o mistério da eleição e a irrevogabilidade das Tuas alianças com Israel, cujo centro é Jerusalém.</p>
+        <p><strong>Súplica:</strong> Que o endurecimento cesse e o véu seja removido, para que todo Israel reconheça em Jesus o Messias.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que removes a cegueira de Teu povo e dás paz a Jerusalém.</p></div>
+      </details>
+
+      <details class="blessing" id="b15"><summary><span class="blessing-number">15.</span>Bênção do Messias</summary>
+        <div class="step"><blockquote>"O reino de Deus está dentro de vós." (Lucas 17:21)</blockquote>
+        <p><strong>Declaração:</strong> Proclamamos abertamente: Jesus é o Messias prometido, o nosso Rei que reina e voltará.</p>
+        <p><strong>Súplica:</strong> Que o Teu Reino cresça em nós e através de nós, manifestando a Tua autoridade em todo lugar.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que nos dás a salvação em Cristo Jesus.</p></div>
+      </details>
+
+      <details class="blessing" id="b16"><summary><span class="blessing-number">16.</span>Bênção da Oração</summary>
+        <div class="step"><blockquote>"Pedi, e dar-se-vos-á; buscai e achareis; batei, e abrir-se-vos-á." (Mateus 7:7)</blockquote>
+        <p><strong>Declaração:</strong> Confiamos que o Pai nos ouve pelo nome de Jesus, e que falar Contigo é o nosso maior privilégio.</p>
+        <p><strong>Súplica:</strong> Ouve a nossa voz e alinha as nossas petições à Tua bondade e ao Teu querer.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que ouves a voz dos Teus filhos.</p></div>
+      </details>
+
+      <div class="seal">✦ PAI NOSSO — SELO DE ALINHAMENTO II ✦
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <details class="blessing" id="b17"><summary><span class="blessing-number">17.</span>Bênção da Ação de Graças</summary>
+        <div class="step"><blockquote>"Pai, graças te dou porque me ouviste." (João 11:41)</blockquote>
+        <p><strong>Declaração:</strong> Agradecemos por tudo o que recebemos e pelas Tuas misericórdias que nos cercam.</p>
+        <p><strong>Súplica:</strong> Que a gratidão seja o nosso estado contínuo, reconhecendo a Tua mão bondosa em cada detalhe da vida.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, a quem rendemos graças de todo o coração.</p></div>
+      </details>
+
+      <details class="blessing" id="b18"><summary><span class="blessing-number">18.</span>Bênção da Paz — O Descanso</summary>
+        <div class="step"><blockquote>"Deixo-vos a paz, a minha paz vos dou; não vo-la dou como a dá o mundo." (João 14:27)</blockquote>
+        <p><strong>Declaração:</strong> Recebemos a paz que Jesus nos deixou, um descanso real que o mundo não pode tirar.</p>
+        <p><strong>Súplica:</strong> Estabelece a Tua paz nos nossos corações, em nossa família, em nossa cidade e sobre todas as nações da terra.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, que abençoas o Teu povo com a paz.</p></div>
+      </details>
+
+      <details class="blessing" id="b19"><summary><span class="blessing-number">19.</span>Bênção da Verdade e Fidelidade — A Rocha Eterna</summary>
+        <div class="step"><blockquote>"Eu sou o caminho, e a verdade, e a vida; ninguém vem ao Pai senão por mim." (João 14:6)</blockquote>
+        <p><strong>Declaração:</strong> Firmamos a nossa vida na Tua Palavra; a Tua Palavra é a Verdade, a Verdade se fez carne na Pessoa de Jesus Cristo.</p>
+        <p><strong>Súplica:</strong> Mantém-nos fiéis ao Teu Evangelho e protege-nos de todo engano que tente nos afastar da Tua presença.</p>
+        <p><strong>Selo:</strong> Bendito sejas Tu, Senhor, luz verdadeira que ilumina o mundo.</p></div>
+      </details>
+
+      <div class="seal">✦ PAI NOSSO — SELO DE ALINHAMENTO III ✦
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">7. Calibração do Intelecto e do Caráter</p>
+        <p><strong>Reza Tomaziana Matutina</strong></p>
+        <blockquote>"Ó Deus altíssimo e verdadeiro, concede-me conhecer-me como sou diante de Ti, para que eu não me exalte pelo que recebi nem me abata pelo que me falta, mas permaneça na verdade. Reconheço que todo bem em mim procede de Ti e que todo desvio nasce quando me tomo como fim e não como instrumento da Tua vontade. Liberta-me da soberba do entendimento, que deseja ser reconhecido antes de ser verdadeiro; e da soberba da vontade, que busca afirmar-se antes de obedecer. Purifica, Senhor, os desejos do meu coração: quando eu desejar ser amado, ensina-me a amar retamente; quando desejar ser honrado, ensina-me a honrar o que é justo; quando desejar ser ouvido e consultado, ensina-me a buscar primeiro a Tua verdade e não a aprovação dos homens. Não permitas que eu busque a estima como fim último, nem que tema o esquecimento quando ele preserva a Tua glória. Concede-me aceitar correção sem resistência, ocultamento sem amargura e silêncio sem revolta, quando assim ordenares para meu bem. Que eu não queira parecer bom, mas sê-lo; não queira parecer sábio, mas ser governado pela Tua sabedoria. Por Cristo Jesus, que sendo Senhor de todas as coisas humilhou-se até a obediência perfeita. Amém."</blockquote>
+        <p><strong>Oração do Filho de Ravina</strong></p>
+        <blockquote>"Meu Deus, guarda a minha língua da calúnia e preserva os meus lábios de toda duplicidade. Faze que a minha alma permaneça mansa na presença dos homens e que, em todo tempo, seja humilde como o pó da terra. Inclina o meu coração à Tua Palavra e torna a minha alma sedenta dos Teus mandamentos, não por temor servil, mas movida pelo Teu amor fiel. Quanto aos que se levantam contra mim, não lhes atribuas segundo o seu intento; tem misericórdia deles e desfaz os seus desígnios, para que o mal não prevaleça e a Tua paz seja manifesta. Atende-me, Senhor, não por justiça que haja em mim, mas por amor ao Teu Nome e por amor ao Teu Filho, Jesus Cristo. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">8. Salmo 131 — O Sossego da Alma <a class="btn-read" target="_blank" rel="noopener" href="https://www.bible.com" data-b="sl" data-c="131">Ler →</a></p>
+        <blockquote>"Senhor, não é soberbo o meu coração, nem altivo o meu olhar; não ando à procura de grandes coisas, nem de coisas maravilhosas demais para mim. Pelo contrário, fiz calar e sossegar a minha alma; como criança desmamada se aquieta nos braços de sua mãe, como essa criança é a minha alma para comigo. Espera, ó Israel, no Senhor, desde agora e para sempre. Amém."</blockquote>
+        <p class="step-title">Salmo 19:14 — O Selo da Aceitação</p>
+        <blockquote>"As palavras dos meus lábios e o meditar do meu coração sejam agradáveis na Tua presença, Senhor, Rocha minha e Redentor meu!"</blockquote>
+      </div>
+
+      <div class="seal">Doxologia Final
+        <blockquote>"Por Jesus Cristo, nosso Senhor, que vive e reina contigo e com o Espírito Santo, um só Deus, pelos séculos dos séculos. Amém."</blockquote>
+      </div>
+    </div>
+  </details>
+
+  <!-- ===================== OFÍCIO VESPERTINO ===================== -->
+  <details class="office" id="office-vespertino">
+    <summary class="office-head">
+      <span class="office-icon">🌤️</span>
+      <span class="office-head-text">Ofício Vespertino — A Manutenção<span class="office-meta">15h – pôr do sol · Postura: De pé ou sentado</span></span>
+      <span class="office-badge" id="badgeVespertino" style="display:none;">agora</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+
+      <div class="step">
+        <p class="step-title">1. Abertura</p>
+        <blockquote>"Abre os meus lábios, Senhor, e a minha boca proclamará o Teu louvor. Purifica o meu coração de todos os pensamentos vãos, desordenados e estranhos. Ilumina os olhos do meu entendimento e inflama a minha vontade, para que eu me aproxime mais de Ti, e cresça na Tua graça e viva segundo a Tua vontade. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">2. Salmo 141 — A Sentinela <a class="btn-read" target="_blank" rel="noopener" href="https://www.bible.com" data-b="sl" data-c="141">Ler →</a></p>
+        <blockquote>"Senhor, a ti clamo; apressa-te em acudir-me; inclina os ouvidos à minha voz, quando te invoco. Suba à tua presença a minha oração como incenso, e seja o erguer das minhas mãos como sacrifício vivo diante de ti. Põe guarda, Senhor, à minha boca; vigia a porta dos meus lábios. Não permitas que o meu coração se incline para o mal, nem que eu pratique obras de iniquidade com os que agem perversamente... Pois a ti, Senhor Deus, estão voltados os meus olhos; em ti confio; não desampares a minha alma. Guarda-me dos laços que me armaram e das armadilhas dos que praticam a iniquidade." (Salmo 141)</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">3. Configuração da Identidade — As Bem-aventuranças</p>
+        <p><em>(Mateus 5:1-12 — conforme o Ofício Matutino)</em></p>
+      </div>
+
+      <div class="step">
+        <p class="step-title">4. Oração do Senhor — Pai Nosso</p>
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">5. A Amidá Cristã — Bênçãos 4 a 19</p>
+        <p><em>Conforme as bênçãos do Ofício Matutino, com Selos de Alinhamento II e III.</em></p>
+        <a class="jump-link" href="#b4" onclick="openAndJump('office-matutino','b4')">↑ Ver as Bênçãos 4–19 no Ofício Matutino</a>
+      </div>
+
+      <div class="step">
+        <p class="step-title">6. Reza Tomaziana da Sabedoria</p>
+        <blockquote>"Ó Deus, Sabedoria eterna, em quem todas as coisas têm medida, peso e ordem, concede-me a luz do entendimento para que eu conheça não apenas as coisas, mas o seu lugar e o seu fim. Guarda-me do saber desordenado, que multiplica informações mas não conduz à verdade; e da ciência inflada, que obscurece o coração e enfraquece o temor do Senhor. Ensina-me a julgar retamente: a distinguir o bem real do bem aparente, o necessário do supérfluo, o eterno do passageiro. Que meu conhecimento seja humilde, submisso à verdade revelada, disciplinado pela razão e vivificado pela caridade. Por Jesus Cristo, Sabedoria do Pai. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">7. Selo Final — Quietude do Filho</p>
+        <blockquote>"Meu Deus, guarda a minha língua da calúnia e preserva os meus lábios de toda duplicidade. Faze que a minha alma permaneça mansa na presença dos homens e que, em todo tempo, seja humilde como o pó da terra. Inclina o meu coração à Tua Palavra e torna a minha alma sedenta dos Teus mandamentos, não por temor servil, mas movida pelo Teu amor fiel. Atende-me, Senhor, não por justiça que haja em mim, mas por amor ao Teu Nome e por amor ao Teu Filho, Jesus Cristo. Amém."</blockquote>
+        <p><em>Salmo 131 e Salmo 19:14 — conforme o Ofício Matutino</em></p>
+      </div>
+
+      <div class="seal">Doxologia Final
+        <blockquote>"Por Jesus Cristo, nosso Senhor, que vive e reina contigo e com o Espírito Santo, um só Deus, pelos séculos dos séculos. Amém."</blockquote>
+      </div>
+
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">📚 Programa de Leitura Vespertino</p>
+        <div class="reading-block" id="blockWeekdayVesper">
+          <h4>Segunda a Sexta</h4>
+          <p>Leitura sequencial dos livros Históricos (Josué a Ester), Poéticos (Jó, Cantares e Eclesiastes) e Proféticos (Isaías a Malaquias).</p>
+          <p class="track-status" id="statusHistoricosVesper"></p>
+          <a class="btn-read" id="linkHistoricosVesper" target="_blank" rel="noopener" href="https://www.bible.com">Continuar →</a>
+        </div>
+        <div class="reading-block" id="blockSaturdayVesper">
+          <h4>Sábado (Tarde)</h4>
+          <p>Leitura da Parashá (Porção da Torá) da semana, conforme o calendário bíblico anual.</p>
+          <p id="parashaTodayVesper" style="font-weight:600;"></p>
+          <a class="btn-read" id="parashaLinkVesper" target="_blank" rel="noopener" href="https://www.bible.com">Ler a Parashá →</a>
+        </div>
+        <div class="reading-block" id="blockSundayVesper">
+          <h4>Domingo (Tarde)</h4>
+          <p>Leitura sequencial de Romanos a Judas e o livro de Apocalipse.</p>
+          <p class="track-status" id="statusEpistolasVesper"></p>
+          <a class="btn-read" id="linkEpistolasVesper" target="_blank" rel="noopener" href="https://www.bible.com">Continuar →</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ===================== OFÍCIO NOTURNO ===================== -->
+  <details class="office" id="office-noturno">
+    <summary class="office-head">
+      <span class="office-icon">🌙</span>
+      <span class="office-head-text">Ofício Noturno — O Repouso<span class="office-meta">Postura: Sentado ou de joelhos, em ambiente calmo e silencioso</span></span>
+      <span class="office-badge" id="badgeNoturno" style="display:none;">agora</span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+
+      <div class="step">
+        <p class="step-title">1. Abertura e Entrega</p>
+        <blockquote>"Senhor, o dia termina e eu venho a Ti. Abre os meus lábios para que eu Te louve mesmo no silêncio da noite. Purifica o meu coração de todas as agitações, ansiedades e ruídos deste dia. Que o meu espírito se acalme na Tua presença. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">2. Oração do Senhor</p>
+        <blockquote>"Pai nosso que estás nos céus, santificado seja o Teu nome; venha o Teu reino; faça-se a Tua vontade, assim na terra como no céu. O pão nosso de cada dia dá-nos hoje; e perdoa-nos as nossas dívidas, assim como nós temos perdoado aos nossos devedores; e não nos deixes cair em tentação; mas livra-nos do mal. Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">3. Oração de Perdão e Gratidão pelo Dia</p>
+        <blockquote>"Pai, ao findar deste dia, coloco em Teu altar cada momento vivido. Agradeço pela vida, pelo pão e pelas proteções que não vi. Contudo, reconheço minhas falhas: onde faltou amor e onde me esqueci de Ti. Peço Teu perdão; que o sangue de Jesus me purifique para que eu não leve para o meu sono nenhuma amargura ou culpa. Descanso na Tua graça."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">4. Noturno — Salmo 91 — A Proclamação da Segurança <a class="btn-read" target="_blank" rel="noopener" href="https://www.bible.com" data-b="sl" data-c="91">Ler →</a></p>
+        <blockquote>"O que habita no esconderijo do Altíssimo e descansa à sombra do Onipotente diz ao Senhor: Meu refúgio e meu baluarte, Deus meu, em quem confio. Pois ele te livrará do laço do passarinheiro e da peste perniciosa. Cobrir-te-á com as suas penas, e, sob suas asas, estarás seguro... Não te assustarás do terror noturno, nem da seta que voa de dia... Caiam mil ao teu lado, e dez mil, à tua direita; tu não serás atingido... Porque a mim se apegou com amor, eu o livrarei; pô-lo-ei a salvo, porque conhece o meu nome. Ele me invocará, e eu lhe responderei; na sua angústia eu estarei com ele, livrá-lo-ei e o glorificarei. Saciá-lo-ei com longevidade e lhe mostrarei a minha salvação." (Salmo 91)</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">5. A Amidá do Evangelho Noturna</p>
+        <p><strong>Parte II — O Alinhamento e a Entrega</strong></p>
+        <blockquote>"Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar e nos purificar de toda injustiça." (1 João 1:9)</blockquote>
+        <blockquote>Senhor, se perdi o rumo hoje, eu volto a Ti agora. Aceito o perdão de Jesus Cristo e perdoo a quem me feriu. Tu que cuidas das aves do céu, guarda a minha saúde e a minha casa. Vence o mal com o Teu bem em minha vida. Bendito sejas Tu, Senhor, que perdoas, curas e transformas o mal em bem. Amém.</blockquote>
+        <p><strong>Parte III — O Repouso na Verdade</strong></p>
+        <blockquote>"Deixo-vos a paz, a minha paz vos dou; não vo-la dou como o mundo a dá." (João 14:27)</blockquote>
+        <blockquote>Jesus é a minha Verdade. Recebo a Sua paz — a paz que afasta todo o medo. Estabelece a Tua paz em meu domínio. Que eu desperte amanhã pronto para Te servir. Bendito sejas Tu, Senhor Jesus, minha luz e meu descanso. Amém.</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">6. Reza Tomaziana — Dependência</p>
+        <blockquote>"Pai onipotente, confesso diante de Ti que sem a tua graça nada posso fazer: nem pensar com retidão, nem escolher com firmeza, nem perseverar no bem. Minha vontade é frágil, meu juízo é instável, meus propósitos vacilam quando não são sustentados por Ti. Sustenta-me, Senhor, no início das obras, no meio das decisões e na perseverança até o fim. Que eu não confie em minha força, nem em minha experiência, nem em minha disciplina, mas me abandone inteiramente ao teu governo. Que tudo em mim proceda de Ti, seja conduzido por Ti e termine em Ti, por Jesus Cristo, em quem vivemos, nos movemos e existimos. A Ti seja a glória, agora e pelos séculos dos séculos."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">7. Oração para o Recebimento do Sono</p>
+        <blockquote>"Pai, recebo o sono como um presente. Entrego o meu espírito nas Tuas mãos. Que o meu descanso seja restaurador e que eu acorde pronto para o novo dia. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">8. Oração do Senhor — O Selo do Descanso</p>
+        <blockquote>"Pai nosso que estás nos céus... Pois Teu é o reino, o poder e a glória, para sempre. Amém."</blockquote>
+      </div>
+
+      <div class="step">
+        <p class="step-title">Selos Finais</p>
+        <blockquote>"As palavras dos meus lábios e o meditar do meu coração sejam agradáveis na Tua presença, Senhor, Rocha minha e Redentor meu."</blockquote>
+        <blockquote>"Em paz me deito e logo pego no sono, porque, Senhor, só tu me fazes repousar seguro." (Salmo 4:8)</blockquote>
+      </div>
+
+      <div class="seal">Doxologia Final
+        <blockquote>"Por Jesus Cristo, nosso Senhor, que vive e reina contigo e com o Espírito Santo, um só Deus, pelos séculos dos séculos. Amém."</blockquote>
+      </div>
+    </div>
+  </details>
+
+  <!-- ===================== MÉTODO DE PERMANÊNCIA ===================== -->
+  <details class="office" id="office-metodo">
+    <summary class="office-head">
+      <span class="office-icon">📚</span>
+      <span class="office-head-text">O Método de Permanência nas Escrituras<span class="office-meta">Programa anual de leitura</span></span>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="office-body">
+      <div class="step">
+        <p>Chegando ao final deste livro, não seria suficiente apenas concluir uma reflexão. O verdadeiro propósito de todo estudo das Escrituras não é apenas compreender ideias, mas aprender a permanecer continuamente na Palavra de Deus.</p>
+        <p>Este método não foi pensado para leitores apressados. Ele exige constância. Exige disciplina. Exige também um desejo sincero de compreender. A assimilação verdadeira das Escrituras raramente acontece de forma rápida. Ela se forma pela repetição reverente, pela leitura constante e pela permanência paciente diante da Palavra.</p>
+        <p>Assim como a água que corre continuamente esculpe a pedra, a Escritura, quando retorna continuamente à memória, molda gradualmente o pensamento, o discernimento e o caráter.</p>
+        <p class="step-title">O Princípio do Método</p>
+        <p>A disciplina fundamental deste programa não está na quantidade de capítulos lidos, mas no tempo dedicado à leitura e na fidelidade ao ciclo. Algumas leituras possuem metas diárias claras. Outras são conduzidas simplesmente por um período mínimo de permanência diante das Escrituras.</p>
+      </div>
+
+      <div class="reading-block active" id="blockPsalmsMethod">
+        <h4>1. Salmos — Leitura Diária (ciclo mensal de 30 dias)</h4>
+        <p id="psalmsMethodToday" style="font-weight:600;"></p>
+        <a class="btn-read" id="psalmsMethodLink" target="_blank" rel="noopener" href="https://www.bible.com">Ler →</a>
+        <details class="blessing" style="margin-top:0.8rem;"><summary>Ver ciclo completo</summary>
+          <table class="method-table" id="psalmsCycleTable"></table>
+        </details>
+      </div>
+
+      <div class="reading-block" id="blockEvangelhosMethod">
+        <h4>2. Evangelhos e Atos — Leitura Diária</h4>
+        <p>Os quatro Evangelhos e o livro de Atos formam um bloco contínuo de leitura diária, mantendo o leitor continuamente exposto à vida, às palavras e às obras de Cristo, e ao testemunho da igreja primitiva.</p>
+        <p class="track-status" id="statusEvangelhos"></p>
+        <a class="btn-read" id="linkEvangelhos" target="_blank" rel="noopener" href="https://www.bible.com">Continuar →</a>
+        <button class="btn-read btn-advance" onclick="advanceTrack('evangelhos')">✓ Concluí, avançar</button>
+        <a class="track-reset" onclick="resetTrack('evangelhos');return false;" href="#">↺ Recomeçar</a>
+      </div>
+
+      <div class="reading-block active" id="blockProverbsMethod">
+        <h4>3. Provérbios — Um Capítulo por Dia</h4>
+        <p id="proverbsMethodToday" style="font-weight:600;"></p>
+        <a class="btn-read" id="proverbsMethodLink" target="_blank" rel="noopener" href="https://www.bible.com">Ler →</a>
+      </div>
+
+      <div class="reading-block" id="blockHistoricosMethod">
+        <h4>4. Históricos, Poéticos e Proféticos — Segunda a Sexta, 30 minutos</h4>
+        <p>Leitura sequencial de Josué a Ester (Históricos), Jó, Eclesiastes e Cantares (Poéticos) e Isaías a Malaquias (Proféticos). A meta não é conclusão — é permanência de 30 minutos diante da Palavra.</p>
+        <p class="track-status" id="statusHistoricos"></p>
+        <a class="btn-read" id="linkHistoricosMethod" target="_blank" rel="noopener" href="https://www.bible.com">Continuar →</a>
+        <button class="btn-read btn-advance" onclick="advanceTrack('historicos')">✓ Concluí, avançar</button>
+        <a class="track-reset" onclick="resetTrack('historicos');return false;" href="#">↺ Recomeçar</a>
+      </div>
+
+      <div class="reading-block" id="blockTorahMethod">
+        <h4>5. Torá — Leitura aos Sábados</h4>
+        <p>Aos sábados lê-se a Parashá da semana, percorrendo os cinco livros de Moisés ao longo de um ano.</p>
+        <p id="parashaTodayMethod" style="font-weight:600;"></p>
+        <a class="btn-read" id="parashaLinkMethod" target="_blank" rel="noopener" href="https://www.bible.com">Ler a Parashá →</a>
+        <details class="blessing" style="margin-top:0.8rem;"><summary>Ver ciclo completo de 54 semanas</summary>
+          <table class="method-table" id="parashaCycleTable"></table>
+        </details>
+      </div>
+
+      <div class="reading-block" id="blockEpistlesMethod">
+        <h4>6. Epístolas e Apocalipse — Domingo</h4>
+        <p>Leitura sequencial das epístolas e do Apocalipse, iniciando em Romanos. Trinta minutos de permanência. Disciplina no tempo, serenidade quanto à conclusão.</p>
+        <p class="track-status" id="statusEpistolas"></p>
+        <a class="btn-read" id="linkEpistolasMethod" target="_blank" rel="noopener" href="https://www.bible.com">Continuar →</a>
+        <button class="btn-read btn-advance" onclick="advanceTrack('epistolas')">✓ Concluí, avançar</button>
+        <a class="track-reset" onclick="resetTrack('epistolas');return false;" href="#">↺ Recomeçar</a>
+      </div>
+
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">Resumo do Método</p>
+        <p>• Diariamente: Salmos • Evangelhos e Atos • Provérbios (1 capítulo)<br>
+        • Segunda a sexta: Históricos, Poéticos e Proféticos — 30 minutos<br>
+        • Sábado: Torá — Parashá da semana<br>
+        • Domingo: Epístolas e Apocalipse — 30 minutos</p>
+      </div>
+
+      <hr class="rule">
+      <div class="step">
+        <p class="step-title">Palavra Final</p>
+        <p>Este programa não foi criado para produzir sensação de produtividade espiritual. Ele foi pensado para algo mais profundo: assimilação. Aquele que persevera nessa prática percebe, com o tempo, que a Palavra começa a habitar a memória, iluminar o entendimento e moldar o coração.</p>
+        <p>A Escritura deixa de ser apenas um livro lido e passa a tornar-se uma presença viva na consciência. Esse é o propósito final deste método.</p>
+        <p>Não apenas ler a Bíblia. Mas permitir que a Palavra de Deus forme o interior do leitor.</p>
+      </div>
+
+      <div class="seal">
+        <blockquote>"Bem-aventurado o homem que medita na lei do Senhor de dia e de noite." (Salmo 1)</blockquote>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<footer class="foot">
+  <p><strong>Idealização e organização:</strong> Plautus Pinheiro. O conteúdo reúne e organiza orações, salmos e ritos de diversas fontes e tradições em uma estrutura diária unificada.</p>
+  <p>Textos bíblicos citados conforme a Nova Almeida Atualizada (NAA), Sociedade Bíblica do Brasil. Os links abrem em nova aba na <a href="https://www.bible.com" target="_blank" rel="noopener">Bible.com / YouVersion</a> (Life.Church) e não interrompem este painel. Use o seletor "Versão" no topo para trocar entre NAA, ARA, NVI, NTLH e ARC — a escolha fica salva no seu aparelho.</p>
+  <p><strong>Progresso de leitura</strong> (Evangelhos+Atos, Históricos/Poéticos/Proféticos e Epístolas+Apocalipse) fica salvo no navegador do próprio aparelho — ao marcar "✓ Concluí, avançar", ele lembra o capítulo na próxima vez que você abrir o painel. Isso é por aparelho/navegador (não sincroniza entre celular e computador) e pode não funcionar dentro de uma pré-visualização isolada — funciona normalmente assim que o arquivo estiver hospedado ou aberto direto no navegador.</p>
+  <p>A Parashá da semana é buscada em tempo real na API pública do <a href="https://www.hebcal.com" target="_blank" rel="noopener">Hebcal</a> (calendário judaico oficial). Quando a busca funciona, aparece "✓ sincronizado"; se o dispositivo estiver sem internet ou a busca falhar, o painel usa uma tabela fixa de 54 semanas como reserva, marcada como "⚠ estimativa local".</p>
+</footer>
+
+<script>
+// ---------- DATA ----------
+const weekdayNames = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const weekdayPsalms = [
+  {n:16, title:"A Ressurreição"},
+  {n:1,  title:"Os Dois Caminhos"},
+  {n:19, title:"A Revelação"},
+  {n:23, title:"O Bom Pastor"},
+  {n:27, title:"A Coragem na Luz"},
+  {n:46, title:"Refúgio no Caos"},
+  {n:103,title:"A Misericórdia Eterna"}
+];
+
+const psalmCycle = [
+  {day:1,label:"Salmos 1–9",start:1},
+  {day:2,label:"Salmos 10–17",start:10},
+  {day:3,label:"Salmos 18–22",start:18},
+  {day:4,label:"Salmos 23–28",start:23},
+  {day:5,label:"Salmos 29–34",start:29},
+  {day:6,label:"Salmos 35–38",start:35},
+  {day:7,label:"Salmos 39–43",start:39},
+  {day:8,label:"Salmos 44–48",start:44},
+  {day:9,label:"Salmos 49–54",start:49},
+  {day:10,label:"Salmos 55–59",start:55},
+  {day:11,label:"Salmos 60–65",start:60},
+  {day:12,label:"Salmos 66–68",start:66},
+  {day:13,label:"Salmos 69–71",start:69},
+  {day:14,label:"Salmos 72–76",start:72},
+  {day:15,label:"Salmos 77–78",start:77},
+  {day:16,label:"Salmos 79–82",start:79},
+  {day:17,label:"Salmos 83–87",start:83},
+  {day:18,label:"Salmos 88–89",start:88},
+  {day:19,label:"Salmos 90–96",start:90},
+  {day:20,label:"Salmos 97–103",start:97},
+  {day:21,label:"Salmos 104–105",start:104},
+  {day:22,label:"Salmos 106–107",start:106},
+  {day:23,label:"Salmos 108–112",start:108},
+  {day:24,label:"Salmos 113–118",start:113},
+  {day:25,label:"Salmo 119 (v.1–96)",start:119},
+  {day:26,label:"Salmo 119 (v.97–176)",start:119},
+  {day:27,label:"Salmos 120–134",start:120},
+  {day:28,label:"Salmos 135–139",start:135},
+  {day:29,label:"Salmos 140–144",start:140},
+  {day:30,label:"Salmos 145–150",start:145}
+];
+
+const parashot = [
+  ["Bereshit","gn",1],["Noach","gn",6],["Lech Lecha","gn",12],["Vayera","gn",18],
+  ["Chayei Sarah","gn",23],["Toldot","gn",25],["Vayetze","gn",28],["Vayishlach","gn",32],
+  ["Vayeshev","gn",37],["Miketz","gn",41],["Vayigash","gn",44],["Vayechi","gn",47],
+  ["Shemot","ex",1],["Vaera","ex",6],["Bo","ex",10],["Beshalach","ex",13],
+  ["Yitro","ex",18],["Mishpatim","ex",21],["Terumah","ex",25],["Tetzaveh","ex",27],
+  ["Ki Tisa","ex",30],["Vayakhel","ex",35],["Pekudei","ex",38],["Vayikra","lv",1],
+  ["Tzav","lv",6],["Shemini","lv",9],["Tazria","lv",12],["Metzora","lv",14],
+  ["Acharei Mot","lv",16],["Kedoshim","lv",19],["Emor","lv",21],["Behar","lv",25],
+  ["Bechukotai","lv",26],["Bamidbar","nm",1],["Nasso","nm",4],["Behaalotecha","nm",8],
+  ["Shlach","nm",13],["Korach","nm",16],["Chukat","nm",19],["Balak","nm",22],
+  ["Pinchas","nm",25],["Matot","nm",30],["Masei","nm",33],["Devarim","dt",1],
+  ["Vaetchanan","dt",3],["Eikev","dt",7],["Reeh","dt",11],["Shoftim","dt",16],
+  ["Ki Teitzei","dt",21],["Ki Tavo","dt",26],["Nitzavim","dt",29],["Vayeilech","dt",31],
+  ["Haazinu","dt",32],["Vezot Haberakhah","dt",33]
+];
+const PARASHA_REF_DATE = Date.UTC(2025,9,18); // sábado de referência (Bereshit)
+
+// ---------- VERSÃO BÍBLICA E LINKS (Life.Church / Bible.com) ----------
+const VERSIONS = {
+  NAA:  {id:1840, label:'NAA'},
+  ARA:  {id:1608, label:'ARA'},
+  NVI:  {id:129,  label:'NVI'},
+  NTLH: {id:211,  label:'NTLH'},
+  ARC:  {id:212,  label:'ARC'}
+};
+const VERSION_ORDER = ['NAA','ARA','NVI','NTLH','ARC'];
+const USX_MAP = {
+  gn:'GEN', ex:'EXO', lv:'LEV', nm:'NUM', dt:'DEU', js:'JOS', jz:'JDG', rt:'RUT',
+  '1sm':'1SA', '2sm':'2SA', '1rs':'1KI', '2rs':'2KI', '1cr':'1CH', '2cr':'2CH',
+  ed:'EZR', ne:'NEH', et:'EST', 'jó':'JOB', sl:'PSA', pv:'PRO', ec:'ECC', ct:'SNG',
+  is:'ISA', jr:'JER', lm:'LAM', ez:'EZK', dn:'DAN', os:'HOS', jl:'JOL', am:'AMO',
+  ob:'OBA', jn:'JON', mq:'MIC', na:'NAM', hc:'HAB', sf:'ZEP', ag:'HAG', zc:'ZEC', ml:'MAL',
+  mt:'MAT', mc:'MRK', lc:'LUK', jo:'JHN', atos:'ACT',
+  rm:'ROM', '1co':'1CO', '2co':'2CO', gl:'GAL', ef:'EPH', fp:'PHP', cl:'COL',
+  '1ts':'1TH', '2ts':'2TH', '1tm':'1TI', '2tm':'2TI', tt:'TIT', fm:'PHM', hb:'HEB',
+  tg:'JAS', '1pe':'1PE', '2pe':'2PE', '1jo':'1JN', '2jo':'2JN', '3jo':'3JN', jd:'JUD', ap:'REV'
+};
+function getBibleVersion(){
+  try{
+    const v = localStorage.getItem('oracao_bible_version');
+    if(v && VERSIONS[v]) return v;
+  }catch(e){ /* localStorage indisponível */ }
+  return 'NAA';
+}
+function setBibleVersion(v){
+  if(!VERSIONS[v]) return;
+  try{ localStorage.setItem('oracao_bible_version', v); }catch(e){ /* segue sem salvar */ }
+  updateVersionButtonsState(v);
+  renderStaticBibleLinks();
+  safeRun(renderTodayCard, 'renderTodayCard');
+  safeRun(renderVesperBlocks, 'renderVesperBlocks');
+  safeRun(renderMethodSection, 'renderMethodSection');
+  safeRun(renderTracks, 'renderTracks');
+  safeRun(initParasha, 'initParasha');
+}
+function bibleUrl(slug, chapter){
+  const v = getBibleVersion();
+  const usx = USX_MAP[slug];
+  const info = VERSIONS[v];
+  if(!usx || !info) return 'https://www.bible.com';
+  return 'https://www.bible.com/bible/'+info.id+'/'+usx+'.'+chapter+'.'+v;
+}
+function updateVersionButtonsState(v){
+  VERSION_ORDER.forEach(key=>{
+    const el = document.getElementById('ver_'+key);
+    if(el) el.classList.toggle('active', key===v);
+  });
+}
+function renderStaticBibleLinks(){
+  document.querySelectorAll('[data-b]').forEach(el=>{
+    el.href = bibleUrl(el.getAttribute('data-b'), el.getAttribute('data-c'));
+  });
+}
+function initBibleVersion(){
+  updateVersionButtonsState(getBibleVersion());
+  renderStaticBibleLinks();
+}
+
+function pad(n){return n<10?"0"+n:""+n;}
+
+function currentParashaIndex(){
+  const now = new Date();
+  const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  const weeks = Math.floor((todayUTC - PARASHA_REF_DATE)/(7*86400000));
+  return ((weeks % 54)+54)%54;
+}
+
+// ---------- DIAL ----------
+function updateDial(){
+  const now = new Date();
+  const h = now.getHours()+now.getMinutes()/60;
+  const deg = (h/24)*360;
+  document.getElementById('dialMarker').style.transform =
+    'translate(95px,0) rotate('+deg+'deg) translate(0,0) rotate(0deg)';
+  // position marker on circle radius ~95 from center, rotated by angle
+  const marker = document.getElementById('dialMarker');
+  marker.style.transform = 'rotate('+deg+'deg) translate(0,-95px)';
+
+  let office, badgeId;
+  if(h>=6 && h<11){office='Ofício Matutino';badgeId='badgeMatutino';}
+  else if(h>=15 && h<18){office='Ofício Vespertino';badgeId='badgeVespertino';}
+  else if(h>=18 || h<6){office='Ofício Noturno';badgeId='badgeNoturno';}
+  else {office='Entreturno';badgeId=null;}
+
+  document.getElementById('nowOffice').textContent = office;
+  document.getElementById('nowTime').textContent =
+    pad(now.getHours())+':'+pad(now.getMinutes())+' · '+weekdayNames[now.getDay()];
+
+  ['badgeMatutino','badgeVespertino','badgeNoturno'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+  document.getElementById('office-matutino').classList.remove('now');
+  document.getElementById('office-vespertino').classList.remove('now');
+  document.getElementById('office-noturno').classList.remove('now');
+  if(badgeId){
+    document.getElementById(badgeId).style.display='inline-block';
+    const map={badgeMatutino:'office-matutino',badgeVespertino:'office-vespertino',badgeNoturno:'office-noturno'};
+    document.getElementById(map[badgeId]).classList.add('now');
+  }
+}
+
+// ---------- WEEKDAY PSALM LIST ----------
+function renderWeekdayPsalms(){
+  const ul = document.getElementById('weekdayPsalmList');
+  const todayIdx = new Date().getDay();
+  ul.innerHTML = weekdayPsalms.map((p,i)=>{
+    const isToday = i===todayIdx;
+    return '<li class="'+(isToday?'today':'')+'">'+
+      '<span>'+weekdayNames[i]+' — Salmo '+p.n+' ('+p.title+')</span>'+
+      '<a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('sl',p.n)+'">Ler →</a>'+
+      '</li>';
+  }).join('');
+}
+
+// ---------- TODAY CARD ----------
+function renderTodayCard(){
+  const now = new Date();
+  const dow = now.getDay();
+  const dom = now.getDate();
+
+  const wp = weekdayPsalms[dow];
+  document.getElementById('todayPsalmWeekday').innerHTML =
+    'Salmo '+wp.n+' — '+wp.title+' <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('sl',wp.n)+'">Ler →</a>';
+
+  const cyc = psalmCycle[Math.min(dom,30)-1];
+  document.getElementById('todayPsalmMonthly').innerHTML =
+    cyc.label+' <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('sl',cyc.start)+'">Ler →</a>';
+
+  const provChapter = Math.min(dom,31);
+  document.getElementById('todayProverbs').innerHTML =
+    'Provérbios '+provChapter+' <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('pv',provChapter)+'">Ler →</a>';
+
+  const label = document.getElementById('todaySpecialLabel');
+  const value = document.getElementById('todaySpecialValue');
+  if(dow===6){
+    const idx = currentParashaIndex();
+    const [name,book,ch] = parashot[idx];
+    label.textContent = 'Torá — Parashá da semana';
+    value.innerHTML = name+' <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl(book,ch)+'">Ler →</a>';
+  } else if(dow===0){
+    label.textContent = 'Epístolas e Apocalipse';
+    value.innerHTML = 'Romanos em diante <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('rm',1)+'">Ler →</a>';
+  } else {
+    label.textContent = 'Históricos / Poéticos / Proféticos';
+    value.innerHTML = '30 min de leitura <a class="btn-read" target="_blank" rel="noopener" href="'+bibleUrl('js',1)+'">Continuar →</a>';
+  }
+}
+
+// ---------- VESPERTINO reading blocks (highlight by weekday) ----------
+function renderVesperBlocks(){
+  const dow = new Date().getDay();
+  const weekday = document.getElementById('blockWeekdayVesper');
+  const saturday = document.getElementById('blockSaturdayVesper');
+  const sunday = document.getElementById('blockSundayVesper');
+  [weekday,saturday,sunday].forEach(b=>b.classList.remove('active'));
+  if(dow===6){
+    saturday.classList.add('active');
+    const idx = currentParashaIndex();
+    const [name,book,ch] = parashot[idx];
+    document.getElementById('parashaTodayVesper').textContent = 'Parashá desta semana: '+name;
+    document.getElementById('parashaLinkVesper').href = bibleUrl(book,ch);
+  } else if(dow===0){
+    sunday.classList.add('active');
+  } else {
+    weekday.classList.add('active');
+  }
+}
+
+// ---------- MÉTODO section ----------
+function renderMethodSection(){
+  const now = new Date();
+  const dom = now.getDate();
+  const dow = now.getDay();
+
+  const cyc = psalmCycle[Math.min(dom,30)-1];
+  document.getElementById('psalmsMethodToday').textContent = 'Dia '+pad(Math.min(dom,30))+' — '+cyc.label;
+  document.getElementById('psalmsMethodLink').href = bibleUrl('sl',cyc.start);
+
+  document.getElementById('psalmsCycleTable').innerHTML = psalmCycle.map(c=>{
+    const isToday = c.day===Math.min(dom,30);
+    return '<tr class="'+(isToday?'today':'')+'"><td>Dia '+pad(c.day)+'</td><td>'+c.label+'</td></tr>';
+  }).join('');
+
+  const provChapter = Math.min(dom,31);
+  document.getElementById('proverbsMethodToday').textContent = 'Hoje: Provérbios '+provChapter;
+  document.getElementById('proverbsMethodLink').href = bibleUrl('pv',provChapter);
+
+  const idx = currentParashaIndex();
+  const [name,book,ch] = parashot[idx];
+  document.getElementById('parashaTodayMethod').textContent = 'Parashá desta semana: '+name;
+  document.getElementById('parashaLinkMethod').href = bibleUrl(book,ch);
+
+  document.getElementById('parashaCycleTable').innerHTML = parashot.map((p,i)=>{
+    const isCurrent = i===idx;
+    return '<tr class="'+(isCurrent?'today':'')+'"><td>'+(i+1)+'. '+p[0]+'</td><td>'+p[1].toUpperCase()+' '+p[2]+'</td></tr>';
+  }).join('');
+
+  ['blockHistoricosMethod','blockTorahMethod','blockEpistlesMethod'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(dow===6) document.getElementById('blockTorahMethod').classList.add('active');
+  else if(dow===0) document.getElementById('blockEpistlesMethod').classList.add('active');
+  else document.getElementById('blockHistoricosMethod').classList.add('active');
+}
+
+const officeIds = ['office-matutino','office-vespertino','office-noturno'];
+const quickNavIds = {'office-matutino':'qnMatutino','office-vespertino':'qnVespertino','office-noturno':'qnNoturno'};
+
+function goToOffice(detailsId, qnId){
+  officeIds.forEach(id=>{
+    document.getElementById(id).open = (id===detailsId);
+  });
+  Object.values(quickNavIds).forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(qnId) document.getElementById(qnId).classList.add('active');
+  setTimeout(()=>{
+    document.getElementById(detailsId).scrollIntoView({behavior:'smooth', block:'start'});
+  }, 30);
+}
+
+function openAndJump(detailsId, anchorId){
+  const d = document.getElementById(detailsId);
+  if(d) d.open = true;
+  setTimeout(()=>{
+    const el = document.getElementById(anchorId);
+    if(el){
+      if(el.tagName.toLowerCase()==='details') el.open = true;
+      el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }, 50);
+}
+
+// ---------- CONTROLE DE TAMANHO DE FONTE (acessibilidade) ----------
+const FONT_STEPS = [100, 112.5, 125, 137.5, 150]; // porcentagens; índice 1 é o novo padrão
+function loadFontStepIndex(){
+  try{
+    const raw = localStorage.getItem('oracao_font_step');
+    if(raw!==null){ const i=parseInt(raw,10); if(i>=0 && i<FONT_STEPS.length) return i; }
+  }catch(e){ /* localStorage indisponível */ }
+  return 1;
+}
+function updateFontButtonsState(i){
+  const minus = document.getElementById('fontMinus');
+  const plus = document.getElementById('fontPlus');
+  if(minus) minus.disabled = (i===0);
+  if(plus) plus.disabled = (i===FONT_STEPS.length-1);
+}
+function applyFontStep(i){
+  document.documentElement.style.fontSize = FONT_STEPS[i]+'%';
+  try{ localStorage.setItem('oracao_font_step', String(i)); }catch(e){ /* segue sem salvar */ }
+  updateFontButtonsState(i);
+}
+function changeFontStep(delta){
+  const i = Math.min(FONT_STEPS.length-1, Math.max(0, loadFontStepIndex()+delta));
+  applyFontStep(i);
+}
+function initFontSize(){
+  applyFontStep(loadFontStepIndex());
+}
+
+// ---------- TIMER DO SILÊNCIO INICIAL (3 minutos + alarme) ----------
+let silenceInterval = null;
+let silenceRemaining = 180;
+function formatTimer(sec){
+  const m = Math.floor(sec/60), s = sec%60;
+  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+function updateTimerDisplay(){
+  const el = document.getElementById('timerDisplay');
+  if(el) el.textContent = formatTimer(silenceRemaining);
+}
+function playAlarm(){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    let t = ctx.currentTime;
+    for(let i=0;i<3;i++){
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.frequency.value = 880;
+      osc.connect(gain); gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.exponentialRampToValueAtTime(0.2, t+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, t+0.35);
+      osc.start(t); osc.stop(t+0.4);
+      t += 0.5;
+    }
+  }catch(e){ /* áudio indisponível neste navegador */ }
+  try{ if(navigator.vibrate) navigator.vibrate([300,150,300,150,300]); }catch(e){ /* sem suporte a vibração */ }
+}
+function toggleSilenceTimer(){
+  const btn = document.getElementById('timerBtn');
+  if(silenceInterval){
+    clearInterval(silenceInterval); silenceInterval = null;
+    silenceRemaining = 180; updateTimerDisplay();
+    if(btn) btn.textContent = 'Iniciar';
+    return;
+  }
+  if(btn) btn.textContent = 'Parar';
+  silenceInterval = setInterval(()=>{
+    silenceRemaining--;
+    updateTimerDisplay();
+    if(silenceRemaining<=0){
+      clearInterval(silenceInterval); silenceInterval = null;
+      playAlarm();
+      if(btn) btn.textContent = 'Iniciar';
+      silenceRemaining = 180;
+      updateTimerDisplay();
+    }
+  }, 1000);
+}
+
+// ---------- PROGRESSO DE LEITURA SEQUENCIAL (localStorage) ----------
+const tracks = {
+  evangelhos: [["Mateus","mt",28],["Marcos","mc",16],["Lucas","lc",24],["João","jo",21],["Atos","atos",28]],
+  historicos: [["Josué","js",24],["Juízes","jz",21],["Rute","rt",4],["1 Samuel","1sm",31],["2 Samuel","2sm",24],
+    ["1 Reis","1rs",22],["2 Reis","2rs",25],["1 Crônicas","1cr",29],["2 Crônicas","2cr",36],["Esdras","ed",10],
+    ["Neemias","ne",13],["Ester","et",10],["Jó","jó",42],["Eclesiastes","ec",12],["Cantares","ct",8],
+    ["Isaías","is",66],["Jeremias","jr",52],["Lamentações","lm",5],["Ezequiel","ez",48],["Daniel","dn",12],
+    ["Oséias","os",14],["Joel","jl",3],["Amós","am",9],["Obadias","ob",1],["Jonas","jn",4],["Miquéias","mq",7],
+    ["Naum","na",3],["Habacuque","hc",3],["Sofonias","sf",3],["Ageu","ag",2],["Zacarias","zc",14],["Malaquias","ml",4]],
+  epistolas: [["Romanos","rm",16],["1 Coríntios","1co",16],["2 Coríntios","2co",13],["Gálatas","gl",6],["Efésios","ef",6],
+    ["Filipenses","fp",4],["Colossenses","cl",4],["1 Tessalonicenses","1ts",5],["2 Tessalonicenses","2ts",3],
+    ["1 Timóteo","1tm",6],["2 Timóteo","2tm",4],["Tito","tt",3],["Filemom","fm",1],["Hebreus","hb",13],["Tiago","tg",5],
+    ["1 Pedro","1pe",5],["2 Pedro","2pe",3],["1 João","1jo",5],["2 João","2jo",1],["3 João","3jo",1],["Judas","jd",1],
+    ["Apocalipse","ap",22]]
+};
+
+function loadPos(track){
+  try{
+    const raw = localStorage.getItem('oracao_pos_'+track);
+    if(raw){ const p = JSON.parse(raw); if(typeof p.b==='number' && typeof p.c==='number') return p; }
+  }catch(e){ /* localStorage indisponível (ex.: pré-visualização em iframe) */ }
+  return {b:0,c:1};
+}
+function savePos(track,pos){
+  try{ localStorage.setItem('oracao_pos_'+track, JSON.stringify(pos)); }catch(e){ /* segue sem salvar */ }
+}
+function advanceTrack(track){
+  const list = tracks[track];
+  let {b,c} = loadPos(track);
+  c++;
+  if(c > list[b][2]){ c = 1; b++; if(b >= list.length) b = 0; }
+  savePos(track,{b,c});
+  renderTracks();
+}
+function resetTrack(track){
+  savePos(track,{b:0,c:1});
+  renderTracks();
+}
+function renderTracks(){
+  const map = {
+    evangelhos: {status:'statusEvangelhos', link:'linkEvangelhos'},
+    historicos: {status:['statusHistoricos','statusHistoricosVesper'], link:['linkHistoricosMethod','linkHistoricosVesper']},
+    epistolas:  {status:['statusEpistolas','statusEpistolasVesper'], link:['linkEpistolasMethod','linkEpistolasVesper']}
+  };
+  Object.keys(tracks).forEach(track=>{
+    const list = tracks[track];
+    const pos = loadPos(track);
+    const book = list[pos.b];
+    const url = bibleUrl(book[1],pos.c);
+    const label = 'Você está em: '+book[0]+' '+pos.c;
+    const cfg = map[track];
+    const statusIds = Array.isArray(cfg.status) ? cfg.status : [cfg.status];
+    const linkIds = Array.isArray(cfg.link) ? cfg.link : [cfg.link];
+    statusIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = label; });
+    linkIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.href = url; });
+  });
+}
+
+
+const HEBCAL_BOOK_SLUG = {Genesis:'gn',Exodus:'ex',Leviticus:'lv',Numbers:'nm',Deuteronomy:'dt'};
+
+function localParasha(){
+  const idx = currentParashaIndex();
+  const [name,book,ch] = parashot[idx];
+  return {name, url: bibleUrl(book,ch), source:'local'};
+}
+
+async function fetchRealParasha(){
+  const now = new Date();
+  const toISO = d => d.toISOString().slice(0,10);
+  const start = toISO(now);
+  const end = toISO(new Date(now.getTime()+8*86400000));
+  const url = 'https://www.hebcal.com/leyning?cfg=json&start='+start+'&end='+end;
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Hebcal HTTP '+res.status);
+  const data = await res.json();
+  const item = (data.items||[]).find(it=>it.type==='shabbat' && it.parshaNum);
+  if(!item) throw new Error('Nenhuma parashá de Shabbat no intervalo consultado');
+  const first = item.fullkriyah && item.fullkriyah['1'];
+  const slug = first ? HEBCAL_BOOK_SLUG[first.k] : null;
+  const chapter = first ? parseInt(first.b.split(':')[0],10) : null;
+  if(!slug || !chapter) throw new Error('Não foi possível montar o link da parashá');
+  return {name:item.name.en, url:bibleUrl(slug,chapter), source:'hebcal'};
+}
+
+function paintParasha(p){
+  const tag = p.source==='hebcal'
+    ? ' <span class="sync-tag sync-ok">✓ sincronizado</span>'
+    : ' <span class="sync-tag sync-warn">⚠ estimativa local</span>';
+
+  if(new Date().getDay()===6){
+    const v = document.getElementById('todaySpecialValue');
+    if(v) v.innerHTML = p.name+' <a class="btn-read" target="_blank" rel="noopener" href="'+p.url+'">Ler →</a>'+tag;
+  }
+  const pv = document.getElementById('parashaTodayVesper');
+  if(pv) pv.innerHTML = 'Parashá desta semana: '+p.name+tag;
+  const lv = document.getElementById('parashaLinkVesper');
+  if(lv) lv.href = p.url;
+
+  const pm = document.getElementById('parashaTodayMethod');
+  if(pm) pm.innerHTML = 'Parashá desta semana: '+p.name+tag;
+  const lm = document.getElementById('parashaLinkMethod');
+  if(lm) lm.href = p.url;
+}
+
+async function initParasha(){
+  paintParasha(localParasha()); // exibe algo imediatamente (reserva)
+  try{
+    const real = await fetchRealParasha();
+    paintParasha(real); // sobrescreve com o valor real, se a busca funcionar
+  }catch(e){
+    console.warn('Não foi possível sincronizar com o Hebcal, mantendo tabela fixa local.', e);
+  }
+}
+
+function initCurrentOffice(){
+  const h = new Date().getHours()+new Date().getMinutes()/60;
+  let target = 'office-matutino';
+  if(h>=6 && h<11) target='office-matutino';
+  else if(h>=15 && h<18) target='office-vespertino';
+  else if(h>=18 || h<6) target='office-noturno';
+  else target=null; // entreturno: não força abertura de nenhum
+  if(target) goToOfficeSilent(target);
+}
+function goToOfficeSilent(detailsId){
+  officeIds.forEach(id=>{ document.getElementById(id).open = (id===detailsId); });
+  Object.values(quickNavIds).forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(quickNavIds[detailsId]) document.getElementById(quickNavIds[detailsId]).classList.add('active');
+}
+
+function safeRun(fn, label){
+  try{ fn(); }catch(e){ console.error('Falha em '+label+':', e); }
+}
+safeRun(initFontSize, 'initFontSize');
+safeRun(initBibleVersion, 'initBibleVersion');
+safeRun(updateDial, 'updateDial');
+safeRun(renderWeekdayPsalms, 'renderWeekdayPsalms');
+safeRun(renderTodayCard, 'renderTodayCard');
+safeRun(renderVesperBlocks, 'renderVesperBlocks');
+safeRun(renderMethodSection, 'renderMethodSection');
+safeRun(initParasha, 'initParasha');
+safeRun(renderTracks, 'renderTracks');
+safeRun(initCurrentOffice, 'initCurrentOffice');
+setInterval(()=>safeRun(updateDial,'updateDial'), 60000);
+</script>
+</body>
+</html>
