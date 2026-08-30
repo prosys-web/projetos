@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Gestão — REVIZI</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --roxo: #5415A3; --lilas: #A863FF; --dourado: #C89B4A;
+    --bg1: #090414; --bg2: #150D27; --cinza: #CCCCCC; --branco: #FFFFFF;
+    --verde: #4CAF7D; --amarelo: #D9A441; --vermelho: #D9534F;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--bg1); color: var(--branco); font-family:'Inter',sans-serif; line-height:1.55; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ===== LOGIN / TOKEN ===== */
+  #telaLogin { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .login-box { background: var(--bg2); border:1px solid rgba(200,155,74,0.3); border-radius:16px; padding:40px 36px; max-width:380px; width:100%; text-align:center; }
+  .login-box h1 { font-family:'Cormorant Garamond',serif; color:var(--dourado); font-size:26px; margin-bottom:8px; }
+  .login-box p { font-size:13px; color:var(--cinza); margin-bottom:24px; }
+  .login-box input { width:100%; background:var(--bg1); border:1.5px solid rgba(255,255,255,0.1); border-radius:10px; padding:13px 14px; color:var(--branco); font-size:14px; margin-bottom:14px; }
+  .login-box button { width:100%; background:var(--roxo); color:var(--branco); font-weight:700; font-size:14.5px; padding:13px; border:none; border-radius:10px; cursor:pointer; }
+  .login-erro { color:var(--vermelho); font-size:12.5px; margin-top:10px; display:none; }
+
+  /* ===== HEADER ===== */
+  .header-painel { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; }
+  .brand-mini { display:flex; align-items:center; gap:10px; }
+  .brand-mini .nome { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--dourado); font-weight:700; }
+  .brand-mini .tag { font-size:10.5px; color:var(--cinza); letter-spacing:1.5px; text-transform:uppercase; }
+  .header-actions { display:flex; gap:10px; align-items:center; }
+  .btn-atualizar { background:var(--roxo); color:var(--branco); border:none; border-radius:8px; padding:9px 18px; font-size:13px; font-weight:600; cursor:pointer; }
+  .ultima-att { font-size:11.5px; color:var(--cinza); }
+
+  /* ===== KPIs ===== */
+  .kpi-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:28px; }
+  .kpi-card { background:var(--bg2); border-radius:14px; padding:18px 16px; border-top:3px solid var(--dourado); }
+  .kpi-num { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:700; color:var(--dourado); }
+  .kpi-label { font-size:11px; color:var(--cinza); margin-top:4px; }
+  @media (max-width:900px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } }
+
+  /* ===== FILTROS ===== */
+  .filtros { background:var(--bg2); border-radius:12px; padding:16px 18px; margin-bottom:24px; display:flex; gap:24px; flex-wrap:wrap; align-items:center; }
+  .filtro-grupo { display:flex; flex-direction:column; gap:6px; }
+  .filtro-grupo label { font-size:10.5px; color:var(--lilas); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  .filtro-botoes { display:flex; gap:6px; flex-wrap:wrap; }
+  .filtro-btn { background:var(--bg1); border:1px solid rgba(255,255,255,0.12); color:var(--cinza); font-size:12px; padding:6px 13px; border-radius:20px; cursor:pointer; transition:all .15s; }
+  .filtro-btn:hover { border-color:var(--dourado); }
+  .filtro-btn.ativo { background:var(--roxo); border-color:var(--roxo); color:var(--branco); }
+  .btn-limpar-filtro { background:none; border:none; color:var(--cinza); font-size:12px; text-decoration:underline; cursor:pointer; margin-left:auto; }
+
+  /* ===== GRÁFICOS ===== */
+  .graficos-grid { display:grid; grid-template-columns:1.3fr 1fr; gap:20px; margin-bottom:28px; }
+  .grafico-box { background:var(--bg2); border-radius:14px; padding:22px; }
+  .grafico-titulo { font-size:12px; color:var(--lilas); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; }
+  @media (max-width:900px) { .graficos-grid { grid-template-columns:1fr; } }
+
+  .funil-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .funil-label { width:110px; font-size:12.5px; color:var(--branco); flex-shrink:0; }
+  .funil-track { flex:1; background:rgba(255,255,255,0.06); border-radius:6px; height:26px; position:relative; overflow:hidden; }
+  .funil-fill { height:100%; background:linear-gradient(90deg, var(--roxo), var(--dourado)); border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; transition:width .4s ease; }
+  .funil-fill span { font-size:11.5px; font-weight:700; color:var(--branco); }
+
+  .origem-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; font-size:12.5px; }
+  .origem-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .origem-nome { width:150px; flex-shrink:0; color:var(--branco); }
+  .origem-track { flex:1; background:rgba(255,255,255,0.06); border-radius:5px; height:16px; overflow:hidden; }
+  .origem-fill { height:100%; border-radius:5px; }
+  .origem-num { width:30px; text-align:right; color:var(--cinza); flex-shrink:0; }
+
+  /* ===== TABELA ===== */
+  .tabela-box { background:var(--bg2); border-radius:14px; padding:22px; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; padding:10px 12px; color:var(--dourado); font-weight:700; font-size:11.5px; letter-spacing:0.5px; text-transform:uppercase; border-bottom:1px solid rgba(200,155,74,0.25); white-space:nowrap; }
+  td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.06); white-space:nowrap; }
+  .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+  .badge-novo { background:rgba(168,99,255,0.15); color:var(--lilas); }
+  .badge-contato { background:rgba(200,155,74,0.15); color:var(--dourado); }
+  .badge-qualificado { background:rgba(76,175,125,0.15); color:var(--verde); }
+  .badge-cliente { background:var(--verde); color:var(--bg1); }
+  .badge-perdido { background:rgba(217,83,79,0.15); color:var(--vermelho); }
+  .sem-dados { text-align:center; padding:40px; color:var(--cinza); font-size:13px; }
+
+  /* ===== TABELA CRUZADA ===== */
+  .cruzada-box { background:var(--bg2); border-radius:14px; padding:22px; margin-bottom:28px; overflow-x:auto; }
+  .tabela-cruzada { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .tabela-cruzada th { text-align:center; padding:9px 12px; color:var(--dourado); font-weight:700; font-size:11px; letter-spacing:0.3px; text-transform:uppercase; border-bottom:1px solid rgba(200,155,74,0.25); white-space:nowrap; }
+  .tabela-cruzada th:first-child { text-align:left; }
+  .tabela-cruzada td { text-align:center; padding:9px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .tabela-cruzada td:first-child { text-align:left; font-weight:600; color:var(--branco); }
+  .tabela-cruzada .celula-zero { color:rgba(255,255,255,0.25); }
+  .tabela-cruzada .celula-valor { color:var(--branco); font-weight:700; }
+  .tabela-cruzada tr.linha-total td { border-top:2px solid rgba(200,155,74,0.3); font-weight:700; color:var(--dourado); }
+
+  .loading { text-align:center; padding:60px; color:var(--cinza); }
+</style>
+</head>
+<body>
+
+<!-- TELA DE LOGIN POR TOKEN -->
+<div id="telaLogin">
+  <div class="login-box">
+    <h1>Painel REVIZI</h1>
+    <p>Acesso restrito — informe o token para continuar.</p>
+    <input type="password" id="inputToken" placeholder="Token de acesso" autocomplete="off">
+    <button onclick="entrarPainel()">Entrar</button>
+    <p class="login-erro" id="loginErro">Token inválido. Tente novamente.</p>
+  </div>
+</div>
+
+<!-- PAINEL (só aparece depois do token certo) -->
+<div class="wrap" id="painelPrincipal" style="display:none;">
+
+  <div class="header-painel">
+    <div class="brand-mini">
+      <svg width="28" height="17" viewBox="0 0 494 250" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 178.0 10.5 H 8.0 L 93.0 216.0 C 101.96299999999997 189.11700000000002 108.34900000000005 172.76299999999998 127.5 136.5 C 135.99300000000005 121.66399999999999 150.0 105.5 150.0 105.5 C 150.0 105.5 166.17399999999998 85.749 178.0 78.0 V 10.5 Z" fill="#5415A3"/>
+        <path d="M 283.047 9.0 H 494.0 C 365.269 77.85300000000001 218.798 145.66199999999998 103.81299999999999 250.0 C 95.45299999999997 193.14499999999998 153.481 114.34100000000001 190.409 79.082 L 218.10000000000002 55.38499999999999 L 249.31500000000005 31.687999999999988 L 283.047 9.0 Z" fill="#C89B4A"/>
+      </svg>
+      <div>
+        <div class="nome">Painel de Gestão</div>
+        <div class="tag">REVIZI — Entrada de Clientes</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="ultima-att" id="ultimaAtualizacao">—</span>
+      <button class="btn-atualizar" onclick="carregarDados()">↻ Atualizar agora</button>
+    </div>
+  </div>
+
+  <div id="conteudoPainel">
+    <div class="loading">Carregando dados da planilha...</div>
+  </div>
+
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhWdimekbaK2spCF2CfdYsyd8iVJKQSExgwM-wyk1jA14GV55-P4w9P2IppdM2NQzJtw/exec';
+  let TOKEN_SALVO = '';
+  let TODOS_REGISTROS = [];
+  let filtroOrigem = null;
+  let filtroStatus = null;
+
+  const ORDEM_STATUS = ['Novo', 'Em contato', 'Qualificado', 'Cliente', 'Perdido'];
+  const CORES_ORIGEM = {
+    'RX Comercial': '#C89B4A',
+    'Sonda': '#A863FF',
+    'WhatsApp': '#4CAF7D',
+    'E-mail': '#5415A3',
+    'Prospecção Interna': '#D9A441',
+    'Prospecção Externa': '#D9534F',
+  };
+  const BADGE_CLASSE = {
+    'Novo': 'badge-novo', 'Em contato': 'badge-contato', 'Qualificado': 'badge-qualificado',
+    'Cliente': 'badge-cliente', 'Perdido': 'badge-perdido',
+  };
+
+  function entrarPainel() {
+    const token = document.getElementById('inputToken').value.trim();
+    if (!token) return;
+    TOKEN_SALVO = token;
+    document.getElementById('telaLogin').style.display = 'none';
+    document.getElementById('painelPrincipal').style.display = 'block';
+    carregarDados();
+  }
+
+  async function carregarDados() {
+    document.getElementById('conteudoPainel').innerHTML = '<div class="loading">Carregando dados da planilha...</div>';
+    try {
+      const resp = await fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(TOKEN_SALVO)}`);
+      const json = await resp.json();
+
+      if (json.status !== 'ok') {
+        document.getElementById('telaLogin').style.display = 'flex';
+        document.getElementById('painelPrincipal').style.display = 'none';
+        document.getElementById('loginErro').style.display = 'block';
+        return;
+      }
+
+      TODOS_REGISTROS = json.dados;
+      document.getElementById('ultimaAtualizacao').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR');
+      renderizarPainel();
+
+    } catch (erro) {
+      document.getElementById('conteudoPainel').innerHTML = `<div class="sem-dados">Erro ao carregar: ${erro.message}. Confirme a URL do Apps Script.</div>`;
+    }
+  }
+
+  function registrosFiltrados() {
+    return TODOS_REGISTROS.filter(r => {
+      if (filtroOrigem && r['Origem'] !== filtroOrigem) return false;
+      if (filtroStatus && r['Status'] !== filtroStatus) return false;
+      return true;
+    });
+  }
+
+  function renderizarPainel() {
+    const registros = registrosFiltrados();
+    const origens = [...new Set(TODOS_REGISTROS.map(r => r['Origem']).filter(Boolean))];
+    const statusExistentes = [...new Set(TODOS_REGISTROS.map(r => r['Status']).filter(Boolean))];
+
+    // ===== KPIs =====
+    const total = registros.length;
+    const novos = registros.filter(r => r['Status'] === 'Novo').length;
+    const qualificados = registros.filter(r => r['Status'] === 'Qualificado').length;
+    const clientes = registros.filter(r => r['Status'] === 'Cliente').length;
+    const comNota = registros.filter(r => r['Nota Geral'] !== '' && r['Nota Geral'] !== undefined && !isNaN(r['Nota Geral']));
+    const notaMedia = comNota.length ? (comNota.reduce((s, r) => s + Number(r['Nota Geral']), 0) / comNota.length).toFixed(1) : '—';
+
+    // ===== Funil por Status =====
+    const contagemStatus = {};
+    ORDEM_STATUS.forEach(s => contagemStatus[s] = 0);
+    registros.forEach(r => { if (contagemStatus[r['Status']] !== undefined) contagemStatus[r['Status']]++; });
+    const maxFunil = Math.max(...Object.values(contagemStatus), 1);
+
+    // ===== Distribuição por Origem =====
+    const contagemOrigem = {};
+    registros.forEach(r => { const o = r['Origem'] || 'Sem origem'; contagemOrigem[o] = (contagemOrigem[o] || 0) + 1; });
+    const maxOrigem = Math.max(...Object.values(contagemOrigem), 1);
+
+    let html = `
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-label">Total (filtro atual)</div></div>
+        <div class="kpi-card" style="border-color:var(--lilas)"><div class="kpi-num" style="color:var(--lilas)">${novos}</div><div class="kpi-label">Novos</div></div>
+        <div class="kpi-card" style="border-color:var(--verde)"><div class="kpi-num" style="color:var(--verde)">${qualificados}</div><div class="kpi-label">Qualificados</div></div>
+        <div class="kpi-card" style="border-color:var(--verde)"><div class="kpi-num" style="color:var(--verde)">${clientes}</div><div class="kpi-label">Clientes</div></div>
+        <div class="kpi-card"><div class="kpi-num">${notaMedia}</div><div class="kpi-label">Nota Média RX</div></div>
+      </div>
+
+      <div class="filtros">
+        <div class="filtro-grupo">
+          <label>Origem</label>
+          <div class="filtro-botoes">
+            ${origens.map(o => `<button class="filtro-btn ${filtroOrigem === o ? 'ativo' : ''}" onclick="aplicarFiltroOrigem('${o}')">${o}</button>`).join('')}
+          </div>
+        </div>
+        <div class="filtro-grupo">
+          <label>Status</label>
+          <div class="filtro-botoes">
+            ${statusExistentes.map(s => `<button class="filtro-btn ${filtroStatus === s ? 'ativo' : ''}" onclick="aplicarFiltroStatus('${s}')">${s}</button>`).join('')}
+          </div>
+        </div>
+        <button class="btn-limpar-filtro" onclick="limparFiltros()">Limpar filtros</button>
+      </div>
+
+      <div class="graficos-grid">
+        <div class="grafico-box">
+          <div class="grafico-titulo">Funil por Status</div>
+          ${ORDEM_STATUS.map(s => `
+            <div class="funil-row">
+              <div class="funil-label">${s}</div>
+              <div class="funil-track"><div class="funil-fill" style="width:${(contagemStatus[s]/maxFunil*100)}%"><span>${contagemStatus[s]}</span></div></div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="grafico-box">
+          <div class="grafico-titulo">Distribuição por Origem</div>
+          ${Object.entries(contagemOrigem).map(([o, n]) => `
+            <div class="origem-row">
+              <div class="origem-dot" style="background:${CORES_ORIGEM[o] || '#888'}"></div>
+              <div class="origem-nome">${o}</div>
+              <div class="origem-track"><div class="origem-fill" style="width:${(n/maxOrigem*100)}%; background:${CORES_ORIGEM[o] || '#888'}"></div></div>
+              <div class="origem-num">${n}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="cruzada-box">
+        <div class="grafico-titulo">Origem × Status — de onde vem quem converte</div>
+        ${gerarTabelaCruzada(registros, origens.length ? origens : [...new Set(TODOS_REGISTROS.map(r=>r['Origem']).filter(Boolean))])}
+      </div>
+
+      <div class="tabela-box">
+        <div class="grafico-titulo">Leads (${registros.length})</div>
+        ${registros.length === 0 ? '<div class="sem-dados">Nenhum registro com os filtros atuais.</div>' : `
+        <table>
+          <thead><tr><th>Data</th><th>Nome</th><th>Empresa</th><th>Origem</th><th>Status</th><th>Nota</th><th>Contato</th></tr></thead>
+          <tbody>
+            ${registros.slice().reverse().map(r => `
+              <tr>
+                <td>${formatarData(r['Data'])}</td>
+                <td>${r['Nome'] || '-'}</td>
+                <td>${r['Empresa'] || '-'}</td>
+                <td>${r['Origem'] || '-'}</td>
+                <td><span class="badge ${BADGE_CLASSE[r['Status']] || ''}">${r['Status'] || '-'}</span></td>
+                <td>${r['Nota Geral'] !== '' && r['Nota Geral'] !== undefined ? r['Nota Geral'] : '-'}</td>
+                <td>${r['WhatsApp'] || r['Email'] || '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    `;
+
+    document.getElementById('conteudoPainel').innerHTML = html;
+  }
+
+  function gerarTabelaCruzada(registros, todasOrigens) {
+    if (todasOrigens.length === 0) return '<div class="sem-dados">Sem dados suficientes ainda.</div>';
+
+    const matriz = {};
+    todasOrigens.forEach(o => {
+      matriz[o] = {};
+      ORDEM_STATUS.forEach(s => matriz[o][s] = 0);
+    });
+    registros.forEach(r => {
+      const o = r['Origem'];
+      if (matriz[o] && matriz[o][r['Status']] !== undefined) matriz[o][r['Status']]++;
+    });
+
+    const totalPorStatus = {};
+    ORDEM_STATUS.forEach(s => totalPorStatus[s] = todasOrigens.reduce((soma, o) => soma + matriz[o][s], 0));
+    const totalGeral = ORDEM_STATUS.reduce((soma, s) => soma + totalPorStatus[s], 0);
+
+    let html = '<table class="tabela-cruzada"><thead><tr><th>Origem</th>';
+    ORDEM_STATUS.forEach(s => html += `<th>${s}</th>`);
+    html += '<th>Total</th></tr></thead><tbody>';
+
+    todasOrigens.forEach(o => {
+      const totalLinha = ORDEM_STATUS.reduce((soma, s) => soma + matriz[o][s], 0);
+      html += `<tr><td>${o}</td>`;
+      ORDEM_STATUS.forEach(s => {
+        const v = matriz[o][s];
+        html += `<td class="${v === 0 ? 'celula-zero' : 'celula-valor'}">${v}</td>`;
+      });
+      html += `<td class="celula-valor">${totalLinha}</td></tr>`;
+    });
+
+    html += `<tr class="linha-total"><td>Total</td>`;
+    ORDEM_STATUS.forEach(s => html += `<td>${totalPorStatus[s]}</td>`);
+    html += `<td>${totalGeral}</td></tr>`;
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function formatarData(iso) {
+    if (!iso) return '-';
+    try { return new Date(iso).toLocaleDateString('pt-BR'); } catch(e) { return iso; }
+  }
+
+  function aplicarFiltroOrigem(o) { filtroOrigem = filtroOrigem === o ? null : o; renderizarPainel(); }
+  function aplicarFiltroStatus(s) { filtroStatus = filtroStatus === s ? null : s; renderizarPainel(); }
+  function limparFiltros() { filtroOrigem = null; filtroStatus = null; renderizarPainel(); }
+
+  document.getElementById('inputToken').addEventListener('keypress', e => { if (e.key === 'Enter') entrarPainel(); });
+</script>
+</body>
+</html>
